@@ -1,12 +1,11 @@
 import React from 'react';
-import Main from '../layouts/Main/Main';
 import './HomePage.css';
 
-const HomePage=()=>{
-    return(
-        <div className='HomePage'>
-            <Main/>
-        </div>
-    )
+function HomePage() {
+  return (
+    <div className="HomePage">
+      <h3>Blogger Main</h3>
+    </div>
+  );
 }
 export default HomePage;

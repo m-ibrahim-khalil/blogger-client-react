@@ -1,0 +1,67 @@
+import Axios from './api/axios';
+
+export default async function getBlogs() {
+  try {
+    const response = await Axios.get(`stories/`, {
+      withCredentials: true,
+    });
+    return response.data.message;
+  } catch (err) {
+    return err.response.data.message;
+  }
+}
+
+export async function getBlogById(id) {
+  try {
+    const response = await Axios.get(`stories/${id}`, {
+      withCredentials: true,
+    });
+    return response.data.message;
+  } catch (err) {
+    return err.response.data.message;
+  }
+}
+
+export async function getBlogsByAuthor(authorId) {
+  try {
+    const response = await Axios.get(`stories/author/${authorId}`, {
+      withCredentials: true,
+    });
+    return response.data.message;
+  } catch (err) {
+    return err.response.data.message;
+  }
+}
+
+export async function createBlog(newBlog) {
+  try {
+    const response = await Axios.post(`stories/`, newBlog, {
+      withCredentials: true,
+    });
+    return response.data.message;
+  } catch (err) {
+    return err.response.data.message;
+  }
+}
+
+export async function updateBlog(id, blog) {
+  try {
+    const response = await Axios.put(`stories/${id}`, blog, {
+      withCredentials: true,
+    });
+    return { status: 'UPDATE_SUCCESS', payload: response.data.message };
+  } catch (err) {
+    return { status: 'UPDATE_FAIL', payload: err.response.data.message };
+  }
+}
+
+export async function deleteBlog(id) {
+  try {
+    const response = await Axios.delete(`stories/${id}`, {
+      withCredentials: true,
+    });
+    return { status: 'DELETE_SUCCESS', payload: response.data.message };
+  } catch (err) {
+    return { status: 'DELETE_FAIL', payload: err.response.data.message };
+  }
+}
