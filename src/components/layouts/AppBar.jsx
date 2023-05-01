@@ -2,6 +2,7 @@
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import NoAccountsIcon from '@mui/icons-material/NoAccounts';
+import { Stack } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -9,14 +10,20 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { useReducer, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useReducer, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import authReducer, { initialState } from '../../reducers/auth';
 
-export default function MenuAppBar() {
+export default function MenuAppBar({ drawerWidth, handleDrawerToggle }) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [state, dispatch] = useReducer(authReducer, initialState);
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const localUser = localStorage.getItem('currentUser');
+    setCurrentUser(localUser ? JSON.parse(localUser) : null);
+  }, []);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,29 +41,31 @@ export default function MenuAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar
+      sx={{
+        width: { sm: `calc(100% - ${drawerWidth}px)` },
+        ml: { sm: `${drawerWidth}px` },
+      }}
+    >
       <Toolbar>
         <IconButton
-          size="large"
           edge="start"
           color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
+          aria-label="open drawer"
+          sx={{ mr: 2, display: { sm: 'none' } }}
+          onClick={handleDrawerToggle}
         >
-          <Link to="/home">
-            <MenuIcon />
-          </Link>
+          <MenuIcon />
         </IconButton>
-
         <Typography
           color="inherit"
-          variant="h4"
-          component="div"
+          variant="h6"
+          noWrap
           sx={{ flexGrow: 1 }}
+          onClick={() => navigate('/home')}
         >
-          <Link to="/home">Blogger</Link>
+          Blogger App
         </Typography>
-
         <Box>
           <IconButton
             size="large"
@@ -84,15 +93,15 @@ export default function MenuAppBar() {
             onClose={handleClose}
           >
             {state?.isAuthenticated ? (
-              <Box>
+              <Stack>
                 <MenuItem onClick={handleClose}>
                   <Link to={`users/${currentUser}`}>{currentUser}</Link>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Box>
+              </Stack>
             ) : (
-              <Box>
+              <Stack>
                 <MenuItem onClick={handleClose}>Guest User</MenuItem>
                 <MenuItem onClick={handleClose}>
                   <Link to="/Signin">Signin</Link>
@@ -100,7 +109,7 @@ export default function MenuAppBar() {
                 <MenuItem onClick={handleClose}>
                   <Link to="/Signup">Signup</Link>
                 </MenuItem>
-              </Box>
+              </Stack>
             )}
           </Menu>
         </Box>

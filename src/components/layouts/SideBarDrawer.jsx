@@ -1,0 +1,109 @@
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
+import { Form, useLoaderData, useNavigate } from 'react-router-dom';
+import ButtonSubmit from '../generics/ButtonSubmit';
+
+const drawerWidth = 240;
+
+function SideBarDrawer(props) {
+  const { window, handleDrawerToggle, mobileOpen } = props;
+  const { blogs } = useLoaderData();
+  const { payload } = blogs;
+  const navigate = useNavigate();
+
+  const toolbarStyles = {
+    background: '#bdc3c7', // or any color of your choice
+  };
+
+  const drawer = (
+    <div style={toolbarStyles}>
+      <Toolbar>
+        <Form method="post">
+          <ButtonSubmit label="Create Blog" color="secondary" />
+        </Form>
+      </Toolbar>
+      <Typography
+        variant="h6"
+        align="center"
+        style={{
+          fontFamily: 'Poppins',
+          fontWeight: 'bold',
+          color: '#863812',
+        }}
+      >
+        Blog List
+      </Typography>
+      <Divider />
+      <List>
+        {payload.map((blog) => (
+          <ListItem key={blog.id} disablePadding>
+            <ListItemButton
+              style={{
+                color: '#863812',
+                background: 'inherit',
+                border: '2.5px solid',
+              }}
+              onClick={() => navigate(`blogs/${blog.id}`)}
+            >
+              <ListItemText primary={blog.title} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+    </div>
+  );
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
+  return (
+    <Box
+      component="nav"
+      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      aria-label="blog list"
+    >
+      <Drawer
+        container={container}
+        variant="temporary"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile.
+        }}
+        sx={{
+          display: { xs: 'block', sm: 'none' },
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
+            width: drawerWidth,
+          },
+        }}
+      >
+        {drawer}
+      </Drawer>
+      <Drawer
+        variant="permanent"
+        sx={{
+          display: { xs: 'none', sm: 'block' },
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
+            width: drawerWidth,
+          },
+        }}
+        open
+      >
+        {drawer}
+      </Drawer>
+    </Box>
+  );
+}
+
+export default SideBarDrawer;

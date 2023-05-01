@@ -1,23 +1,29 @@
 import {
-  Route,
   createBrowserRouter,
   createRoutesFromElements,
+  Route,
 } from 'react-router-dom';
 import ErrorPage from '../components/Pages/ErrorPage';
 import HomePage from '../components/Pages/HomePage';
 import WithPrivateRoute from '../hooks/WithPrivateRoute';
+import BlogsByAuthor, { loader as blogsByAuthorLoader } from './BlogsByAuthor';
+import BlogView, {
+  action as deleteBlogAction,
+  loader as blogLoader,
+} from './BlogView';
+import EditBlog, { action as editAction } from './EditBlog';
+import Root, { action as rootAction, loader as rootLoader } from './Root';
 import Signin, { action as signinAction } from './Signin';
 import Signup, { action as signupAction } from './Signup';
-import Blog, { loader as blogLoader, action as deleteBlogAction } from './blog';
-import EditBlog, { action as editAction } from './blogEdit';
-import BlogsByAuthor, { loader as blogsByAuthorLoader } from './blogsByAuthor';
-import Root, { action as rootAction, loader as rootLoader } from './root';
 import UpdatePassword, {
   action as updatePasswordAction,
-} from './updatePassword';
-import User, { action as deleteUserAction, loader as userLoader } from './user';
+} from './UpdatePassword';
+import User, {
+  action as deleteUserAction,
+  loader as userLoader,
+} from './UserView';
 
-const router = createBrowserRouter(
+const Router = createBrowserRouter(
   createRoutesFromElements(
     <Route
       path="/"
@@ -32,7 +38,7 @@ const router = createBrowserRouter(
         <Route path="signup" element={<Signup />} action={signupAction} />
         <Route
           path="blogs/:blogId"
-          element={<Blog />}
+          element={<BlogView />}
           loader={blogLoader}
           action={deleteBlogAction}
         />
@@ -51,20 +57,21 @@ const router = createBrowserRouter(
           element={<User />}
           loader={userLoader}
           action={deleteUserAction}
-        />
+        >
+          <Route
+            path="blogs/:authorId"
+            element={<BlogsByAuthor />}
+            loader={blogsByAuthorLoader}
+          />
+        </Route>
         <Route
           path="users/:username/update"
           element={<UpdatePassword />}
           action={updatePasswordAction}
-        />
-        <Route
-          path="users/:username/blogs/:authorId"
-          element={<BlogsByAuthor />}
-          loader={blogsByAuthorLoader}
         />
       </Route>
     </Route>
   )
 );
 
-export default router;
+export default Router;

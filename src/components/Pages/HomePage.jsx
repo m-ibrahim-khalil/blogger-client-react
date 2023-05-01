@@ -4,7 +4,7 @@ import './HomePage.css';
 function HomePage() {
   return (
     <div className="HomePage">
-      <h3>Blogger Main</h3>
+      <h3>Blogger App</h3>
     </div>
   );
 }

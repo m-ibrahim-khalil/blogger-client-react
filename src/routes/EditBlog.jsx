@@ -1,21 +1,22 @@
 import Avatar from '@material-ui/core/Avatar';
+import TextareaAutosize from '@mui/base/TextareaAutosize';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box, Button, Container, Typography } from '@mui/material';
-import { Form, redirect, useNavigate } from 'react-router-dom';
+import { Form, redirect, useLoaderData, useNavigate } from 'react-router-dom';
 import ButtonSubmit from '../components/generics/ButtonSubmit';
 import TextFieldGeneric from '../components/generics/TextFieldGeneric';
-import { updateUserByUsername } from '../services/userService';
+import { updateBlog } from '../services/blogService';
 
 export async function action({ request, params }) {
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
-  await updateUserByUsername(params.username, updates);
-  return redirect('/');
+  await updateBlog(params.blogId, updates);
+  return redirect(`/`);
 }
 
-export default function UpdatePassword() {
+export default function EditBlog() {
+  const { blog } = useLoaderData();
   const navigate = useNavigate();
-
   return (
     <Container maxWidth="sm">
       <Box
@@ -30,18 +31,28 @@ export default function UpdatePassword() {
           <BorderColorIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Change Password
+          Edit Blog
         </Typography>
-        <Form method="put" id="update-pass">
+        <Form method="post" id="edit-blog-form">
           <Box sx={{ mt: 1 }}>
-            <span>New Password</span>
+            <span>Title</span>
             <TextFieldGeneric
-              placeholder="Enter New Password"
-              aria-label="New Password"
-              type="password"
-              name="password"
+              id="title"
+              name="title"
+              placeholder="Title"
+              value={blog.title}
             />
-            <ButtonSubmit label="Update" />
+            <span>Description</span>
+            <TextareaAutosize
+              maxRows={4}
+              id="description"
+              name="description"
+              aria-label="Description"
+              placeholder="Description"
+              defaultValue={blog.description}
+              style={{ width: 500 }}
+            />
+            <ButtonSubmit label="Save" />
             <Button
               type="button"
               color="primary"

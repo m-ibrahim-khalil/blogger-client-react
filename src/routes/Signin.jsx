@@ -14,7 +14,10 @@ export async function action({ request }) {
   const { status } = await login(updates);
   if (status === 'LOGIN_SUCCESS') {
     localStorage.setItem('isAuthenticated', JSON.stringify(true));
-    localStorage.setItem('currentUser', JSON.stringify(updates?.username));
+    localStorage.setItem(
+      'currentUser',
+      JSON.stringify(updates?.username.toLowerCase())
+    );
     return redirect(`/`);
   }
   localStorage.setItem('isAuthenticated', JSON.stringify(false));

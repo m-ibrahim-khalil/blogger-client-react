@@ -12,8 +12,11 @@ export async function action({ request }) {
   const updates = Object.fromEntries(formData);
   const { status } = await register(updates);
   if (status === 'REGISTER_SUCCESS') {
-    localStorage.setItem('isAuthenticated', true);
-    localStorage.setItem('currentUser', updates?.username);
+    localStorage.setItem('isAuthenticated', JSON.stringify(true));
+    localStorage.setItem(
+      'currentUser',
+      JSON.stringify(updates?.username.toLowerCase())
+    );
     return redirect(`/`);
   }
   return redirect(`/signup`);
