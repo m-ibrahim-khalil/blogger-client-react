@@ -5,22 +5,30 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import Pagination from '@mui/material/Pagination';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import * as React from 'react';
-import { Form, useLoaderData, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Form, useNavigate } from 'react-router-dom';
+import usePaginate from '../../hooks/usePagination';
 import ButtonSubmit from '../generics/ButtonSubmit';
 
 const drawerWidth = 240;
 
 function SideBarDrawer(props) {
-  const { window, handleDrawerToggle, mobileOpen } = props;
-  const { blogs } = useLoaderData();
-  const { payload } = blogs;
+  const [page, setPage] = useState(1);
+  const blogs = usePaginate(page);
   const navigate = useNavigate();
+  const { window, handleDrawerToggle, mobileOpen } = props;
+  // const { blogs } = useLoaderData();
+  const { payload, totalPages } = blogs;
+
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
 
   const toolbarStyles = {
-    background: '#bdc3c7', // or any color of your choice
+    background: '#bdc3c7',
   };
 
   const drawer = (
@@ -59,6 +67,7 @@ function SideBarDrawer(props) {
         ))}
       </List>
       <Divider />
+      <Pagination count={totalPages} page={page} onChange={handleChange} />
     </div>
   );
 

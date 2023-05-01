@@ -4,7 +4,6 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { Form, redirect, useLoaderData, useNavigate } from 'react-router-dom';
 import ButtonSubmit from '../components/generics/ButtonSubmit';
-import TextFieldGeneric from '../components/generics/TextFieldGeneric';
 import { updateBlog } from '../services/blogService';
 
 export async function action({ request, params }) {
@@ -36,11 +35,14 @@ export default function EditBlog() {
         <Form method="post" id="edit-blog-form">
           <Box sx={{ mt: 1 }}>
             <span>Title</span>
-            <TextFieldGeneric
+            <TextareaAutosize
+              maxRows={2}
               id="title"
               name="title"
+              aria-label="Title"
               placeholder="Title"
-              value={blog.title}
+              defaultValue={blog.title}
+              style={{ width: 600 }}
             />
             <span>Description</span>
             <TextareaAutosize
@@ -50,7 +52,7 @@ export default function EditBlog() {
               aria-label="Description"
               placeholder="Description"
               defaultValue={blog.description}
-              style={{ width: 500 }}
+              style={{ width: 600 }}
             />
             <ButtonSubmit label="Save" />
             <Button

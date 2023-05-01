@@ -1,8 +1,8 @@
 import Axios from './api/axios';
 
-export default async function getBlogs() {
+export default async function getBlogs(page = 1, size = 10) {
   try {
-    const response = await Axios.get(`stories/`, {
+    const response = await Axios.get(`stories?page=${page - 1}&size=${size}`, {
       withCredentials: true,
     });
     return response.data.message;

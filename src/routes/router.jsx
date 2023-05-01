@@ -1,26 +1,26 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  Route,
+  Route
 } from 'react-router-dom';
+import WithPrivateRoute from '../components/HOC/WithPrivateRoute';
 import ErrorPage from '../components/Pages/ErrorPage';
 import HomePage from '../components/Pages/HomePage';
-import WithPrivateRoute from '../hooks/WithPrivateRoute';
 import BlogsByAuthor, { loader as blogsByAuthorLoader } from './BlogsByAuthor';
 import BlogView, {
   action as deleteBlogAction,
-  loader as blogLoader,
+  loader as blogLoader
 } from './BlogView';
 import EditBlog, { action as editAction } from './EditBlog';
 import Root, { action as rootAction, loader as rootLoader } from './Root';
 import Signin, { action as signinAction } from './Signin';
 import Signup, { action as signupAction } from './Signup';
 import UpdatePassword, {
-  action as updatePasswordAction,
+  action as updatePasswordAction
 } from './UpdatePassword';
 import User, {
   action as deleteUserAction,
-  loader as userLoader,
+  loader as userLoader
 } from './UserView';
 
 const Router = createBrowserRouter(
