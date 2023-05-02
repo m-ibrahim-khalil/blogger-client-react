@@ -1,25 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
-import getBlogs from '../services/blogService';
+// /* eslint-disable react-hooks/exhaustive-deps */
+// import { useEffect } from 'react';
+// import getBlogs from '../services/blogService';
 
-function usePaginate(page, size = 10) {
-  const [data, setData] = useState({
-    payload: [],
-    currentPage: 0,
-    totalPages: 0,
-    totalItems: 0,
-  });
+// function usePaginate(page, setBlogs, size = 10) {
+//   useEffect(() => {
+//     const blogs = getBlogs(page, size);
+//     blogs.then(({ payload, currentPage, totalPages, totalItems }) => {
+//       setBlogs({
+//         payload,
+//         currentPage,
+//         totalPages,
+//         totalItems,
+//       });
+//     });
+//   }, [page, size]);
+// }
 
-  useEffect(() => {
-    const blogs = getBlogs(page, size);
-    blogs.then((blog) => {
-      setData({
-        ...blog,
-      });
-    });
-  }, [page, size]);
-
-  return data;
-}
-
-export default usePaginate;
+// export default usePaginate;

@@ -10,20 +10,20 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { useEffect, useReducer, useState } from 'react';
+import { useReducer, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import authReducer, { initialState } from '../../reducers/auth';
+import { getLogedInUsername, isLoggedIn } from '../../utils/jwt';
 
-export default function MenuAppBar({ drawerWidth, handleDrawerToggle }) {
+export default function MenuAppBar({
+  drawerWidth,
+  handleDrawerToggle,
+  setCurrentUser,
+}) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
+
   const [state, dispatch] = useReducer(authReducer, initialState);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const localUser = localStorage.getItem('currentUser');
-    setCurrentUser(localUser ? JSON.parse(localUser) : null);
-  }, []);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -38,6 +38,9 @@ export default function MenuAppBar({ drawerWidth, handleDrawerToggle }) {
       type: 'LOGOUT_SUCCESS',
       payload: 'Logged out!',
     });
+    setCurrentUser(null);
+    setAnchorEl(null);
+    navigate('/');
   };
 
   return (
@@ -75,7 +78,7 @@ export default function MenuAppBar({ drawerWidth, handleDrawerToggle }) {
             onClick={handleMenu}
             color="inherit"
           >
-            {state?.isAuthenticated ? <AccountCircle /> : <NoAccountsIcon />}
+            {isLoggedIn() ? <AccountCircle /> : <NoAccountsIcon />}
           </IconButton>
           <Menu
             id="menu-appbar"
@@ -92,10 +95,12 @@ export default function MenuAppBar({ drawerWidth, handleDrawerToggle }) {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            {state?.isAuthenticated ? (
+            {getLogedInUsername() ? (
               <Stack>
                 <MenuItem onClick={handleClose}>
-                  <Link to={`users/${currentUser}`}>{currentUser}</Link>
+                  <Link to={`users/${getLogedInUsername()}`}>
+                    {getLogedInUsername()}
+                  </Link>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>

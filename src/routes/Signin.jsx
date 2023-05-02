@@ -2,8 +2,8 @@
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Box, Container, Typography } from '@mui/material';
-import React, { useState } from 'react';
-import { Form, Link, redirect } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Form, Link, useActionData, useNavigate } from 'react-router-dom';
 import ButtonSubmit from '../components/generics/ButtonSubmit';
 import TextFieldGeneric from '../components/generics/TextFieldGeneric';
 import { login } from '../services/authService';
@@ -11,23 +11,40 @@ import { login } from '../services/authService';
 export async function action({ request }) {
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
-  const { status } = await login(updates);
-  if (status === 'LOGIN_SUCCESS') {
-    localStorage.setItem('isAuthenticated', JSON.stringify(true));
-    localStorage.setItem(
-      'currentUser',
-      JSON.stringify(updates?.username.toLowerCase())
-    );
-    return redirect(`/`);
+  const errors = {};
+  if (!updates?.username.trim()) {
+    errors.username = "Username can't be empty or space";
   }
-  localStorage.setItem('isAuthenticated', JSON.stringify(false));
-  localStorage.setItem('currentUser', JSON.stringify(null));
-  return redirect(`/signin`);
+
+  if (updates?.password?.length < 4) {
+    errors.password = 'Password must be > 4 characters';
+  }
+
+  // return data if we have errors
+  if (Object.keys(errors).length) {
+    return errors;
+  }
+
+  const { status } = await login(updates);
+  return { status, updates };
 }
 
 function Signin() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const data = useActionData();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (data?.status === 'LOGIN_SUCCESS') {
+      localStorage.setItem('isAuthenticated', JSON.stringify(true));
+      localStorage.setItem(
+        'currentUser',
+        JSON.stringify(data?.updates?.username.toLowerCase())
+      );
+      return navigate(`/`);
+    }
+    localStorage.setItem('isAuthenticated', JSON.stringify(false));
+    localStorage.setItem('currentUser', JSON.stringify(null));
+    return navigate(`/signin`);
+  }, [data?.status]);
 
   return (
     <Container maxWidth="sm">
@@ -51,17 +68,15 @@ function Signin() {
               id="username"
               name="username"
               placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
             />
+            {data?.username && <span>{data?.username}</span>}
             <TextFieldGeneric
               type="password"
               id="password"
               name="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
             />
+            {data?.password && <span>{data?.password}</span>}
             <ButtonSubmit label="Sign In" />
           </Box>
         </Form>

@@ -1,3 +1,5 @@
+import { removeCoockie } from '../utils/jwt';
+
 export const initialState = {
   isAuthenticated: JSON.parse(localStorage.getItem('isAuthenticated')),
   isLoading: true,
@@ -20,6 +22,7 @@ const authReducer = (state = initialState, action) => {
     case 'REGISTER_FAIL':
       localStorage.removeItem('isAuthenticated');
       localStorage.removeItem('currentUser');
+      removeCoockie();
       return {
         ...state,
         payload: action.payload,

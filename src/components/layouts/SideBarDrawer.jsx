@@ -9,22 +9,29 @@ import Pagination from '@mui/material/Pagination';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import { Form, useNavigate } from 'react-router-dom';
-import usePaginate from '../../hooks/usePagination';
+import { Form, useLoaderData, useNavigate } from 'react-router-dom';
 import ButtonSubmit from '../generics/ButtonSubmit';
 
 const drawerWidth = 240;
 
 function SideBarDrawer(props) {
   const [page, setPage] = useState(1);
-  const blogs = usePaginate(page);
+  // const [blogs, setBlogs] = useState({
+  //   payload: [],
+  //   currentPage: 0,
+  //   totalPages: 0,
+  //   totalItems: 0,
+  // });
+
+  // usePaginate(page, setBlogs);
   const navigate = useNavigate();
   const { window, handleDrawerToggle, mobileOpen } = props;
-  // const { blogs } = useLoaderData();
+  const { blogs } = useLoaderData();
   const { payload, totalPages } = blogs;
 
   const handleChange = (event, value) => {
     setPage(value);
+    navigate(`/?page=${value}`);
   };
 
   const toolbarStyles = {
