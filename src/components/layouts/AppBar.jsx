@@ -10,20 +10,15 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { useReducer, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import authReducer, { initialState } from '../../reducers/auth';
-import { getLogedInUsername, isLoggedIn } from '../../utils/jwt';
+import { useAuth } from '../../context/authContext';
+import { removeCoockie } from '../../utils/jwt';
 
-export default function MenuAppBar({
-  drawerWidth,
-  handleDrawerToggle,
-  setCurrentUser,
-}) {
+export default function MenuAppBar({ drawerWidth, handleDrawerToggle }) {
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const [state, dispatch] = useReducer(authReducer, initialState);
   const navigate = useNavigate();
+  const { authUser, isLoggedIn, setAuthUser, setIsLoggedIn } = useAuth();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,12 +29,10 @@ export default function MenuAppBar({
   };
 
   const handleLogout = () => {
-    dispatch({
-      type: 'LOGOUT_SUCCESS',
-      payload: 'Logged out!',
-    });
-    setCurrentUser(null);
+    setAuthUser(null);
+    setIsLoggedIn(false);
     setAnchorEl(null);
+    removeCoockie('jwt');
     navigate('/');
   };
 
@@ -78,7 +71,7 @@ export default function MenuAppBar({
             onClick={handleMenu}
             color="inherit"
           >
-            {isLoggedIn() ? <AccountCircle /> : <NoAccountsIcon />}
+            {isLoggedIn ? <AccountCircle /> : <NoAccountsIcon />}
           </IconButton>
           <Menu
             id="menu-appbar"
@@ -95,12 +88,10 @@ export default function MenuAppBar({
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            {getLogedInUsername() ? (
+            {authUser ? (
               <Stack>
                 <MenuItem onClick={handleClose}>
-                  <Link to={`users/${getLogedInUsername()}`}>
-                    {getLogedInUsername()}
-                  </Link>
+                  <Link to={`users/${authUser}`}>{authUser}</Link>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>

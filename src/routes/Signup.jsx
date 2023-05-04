@@ -1,51 +1,53 @@
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Box, Container, Typography } from '@mui/material';
-import React, { useState } from 'react';
-import { Form, Link, redirect, useActionData } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Form, Link, useActionData, useNavigate } from 'react-router-dom';
 import ButtonGeneric from '../components/generics/ButtonSubmit';
 import TextFieldGeneric from '../components/generics/TextFieldGeneric';
+import { useAuth } from '../context/authContext';
 import { register } from '../services/authService';
+import { getAuthUsername } from '../utils/jwt';
 
 export async function action({ request }) {
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
-
   const errors = {};
   if (!updates?.username.trim()) {
     errors.username = "Username can't be empty or space";
   }
-
   if (!updates?.email.includes('@')) {
     errors.email = "That doesn't look like an email address";
   }
-
   if (updates?.password?.length < 6) {
     errors.password = 'Password must be > 6 characters';
   }
 
-  // return data if we have errors
   if (Object.keys(errors).length) {
     return errors;
   }
 
   const { status } = await register(updates);
-  if (status === 'REGISTER_SUCCESS') {
-    localStorage.setItem('isAuthenticated', JSON.stringify(true));
-    localStorage.setItem(
-      'currentUser',
-      JSON.stringify(updates?.username.toLowerCase())
-    );
-    return redirect(`/`);
-  }
-  return redirect(`/signup`);
+  return { status };
 }
 
 function Signup() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const errors = useActionData();
+  const data = useActionData();
+  const navigate = useNavigate();
+  const { setIsLoggedIn, setAuthUser } = useAuth();
+  const status = data?.status || null;
+
+  useEffect(() => {
+    if (status === 'REGISTER_SUCCESS') {
+      setIsLoggedIn(true);
+      setAuthUser(getAuthUsername());
+      return navigate(`/home`);
+    }
+    setIsLoggedIn(false);
+    setAuthUser(null);
+    return navigate('/signup');
+  }, [status]);
+
   return (
     <Container maxWidth="sm">
       <Box
@@ -62,6 +64,17 @@ function Signup() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
+        {status && (
+          <Typography
+            component="h1"
+            variant="h5"
+            style={{
+              color: status === 'REGISTER_SUCCESS' ? 'green' : 'red',
+            }}
+          >
+            {status}
+          </Typography>
+        )}
 
         <Form method="post" id="signup-form">
           <Box sx={{ mt: 3 }}>
@@ -69,27 +82,25 @@ function Signup() {
               id="username"
               name="username"
               placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
             />
-            {errors?.username && <span>{errors?.username}</span>}
+            {data?.username && (
+              <span style={{ color: 'red' }}>{data?.username}</span>
+            )}
             <TextFieldGeneric
               id="email"
               name="email"
               placeholder="Email Adress"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
             />
-            {errors?.email && <span>{errors.email}</span>}
+            {data?.email && <span style={{ color: 'red' }}>{data.email}</span>}
             <TextFieldGeneric
               type="password"
               id="password"
               name="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
             />
-            {errors?.password && <span>{errors.password}</span>}
+            {data?.password && (
+              <span style={{ color: 'red' }}>{data.password}</span>
+            )}
             <ButtonGeneric label="Sign Up" />
           </Box>
         </Form>

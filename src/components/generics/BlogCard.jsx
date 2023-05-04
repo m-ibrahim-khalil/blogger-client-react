@@ -9,25 +9,20 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
-import { red } from '@mui/material/colors';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
+import { red } from '@mui/material/colors';
 import { Form, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/authContext';
 import dateTimeFormatter from '../../utils/dateTimeFormatter';
 
 export default function BlogCard({ blog }) {
-  const [currentUser, setCurrentUser] = useState(null);
+  const { authUser: currentUser } = useAuth();
   const { title, description, author, updatedAt, avatar } = blog;
+  console.log(currentUser, author);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const localUser = localStorage.getItem('currentUser');
-    setCurrentUser(localUser ? JSON.parse(localUser) : null);
-  }, []);
-
   return (
-    <Card className="blogCard">
+    <Card className="blogCard" st>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="blog">
@@ -78,7 +73,11 @@ export default function BlogCard({ blog }) {
         alt="Blog Cover Photo"
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          style={{ textAlign: 'justify' }}
+        >
           {description}
         </Typography>
       </CardContent>
@@ -96,7 +95,6 @@ export default function BlogCard({ blog }) {
                 size="small"
                 type="submit"
                 variant="outlined"
-                flexShrink={0}
                 style={{
                   backgroundColor: '#863812',
                   color: '#EBE4D2',
@@ -123,7 +121,6 @@ export default function BlogCard({ blog }) {
                 size="small"
                 type="submit"
                 variant="outlined"
-                flexShrink={1}
                 style={{
                   borderColor: '#b11e1e',
                   color: '#b11e1e',

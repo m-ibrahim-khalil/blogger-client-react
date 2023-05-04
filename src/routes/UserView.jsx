@@ -2,7 +2,7 @@ import { Outlet, redirect, useLoaderData } from 'react-router-dom';
 import UserCard from '../components/generics/UserCard';
 import {
   deleteUserByUsername,
-  getUserByUsername
+  getUserByUsername,
 } from '../services/userService';
 
 export async function loader({ params }) {

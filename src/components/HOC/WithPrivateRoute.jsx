@@ -1,11 +1,16 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
+import { useAuth } from '../../context/authContext';
 
 function WithPrivateRoute({ children }) {
-  const isAuthenticated = JSON.parse(localStorage.getItem('isAuthenticated'));
+  const { authUser } = useAuth();
+  const { username } = useParams();
+  console.log(authUser, username);
 
-  if (isAuthenticated) {
-    return children;
+  if (authUser) {
+    if (!username) return children;
+    if (username && authUser === username) return children;
+    return <Navigate to="/signin" />;
   }
 
   return <Navigate to="/signin" />;

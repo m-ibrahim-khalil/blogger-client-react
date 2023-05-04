@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -9,21 +10,12 @@ import Pagination from '@mui/material/Pagination';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import { Form, useLoaderData, useNavigate } from 'react-router-dom';
-import ButtonSubmit from '../generics/ButtonSubmit';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
 function SideBarDrawer(props) {
   const [page, setPage] = useState(1);
-  // const [blogs, setBlogs] = useState({
-  //   payload: [],
-  //   currentPage: 0,
-  //   totalPages: 0,
-  //   totalItems: 0,
-  // });
-
-  // usePaginate(page, setBlogs);
   const navigate = useNavigate();
   const { window, handleDrawerToggle, mobileOpen } = props;
   const { blogs } = useLoaderData();
@@ -41,9 +33,16 @@ function SideBarDrawer(props) {
   const drawer = (
     <div style={toolbarStyles}>
       <Toolbar>
-        <Form method="post">
-          <ButtonSubmit label="Create Blog" color="secondary" />
-        </Form>
+        <Button
+          id="create-blog-btn"
+          color="secondary"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+          onClick={() => navigate(`blogs/create`)}
+        >
+          Create Blog
+        </Button>
       </Toolbar>
       <Typography
         variant="h6"
@@ -59,14 +58,17 @@ function SideBarDrawer(props) {
       <Divider />
       <List>
         {payload.map((blog) => (
-          <ListItem key={blog.id} disablePadding>
+          <ListItem
+            key={blog.id}
+            disablePadding
+            onClick={() => navigate(`blogs/${blog.id}`)}
+          >
             <ListItemButton
               style={{
                 color: '#863812',
                 background: 'inherit',
                 border: '2.5px solid',
               }}
-              onClick={() => navigate(`blogs/${blog.id}`)}
             >
               <ListItemText primary={blog.title} />
             </ListItemButton>
@@ -84,7 +86,7 @@ function SideBarDrawer(props) {
   return (
     <Box
       component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      sx={{ width: { sm: drawerWidth } }}
       aria-label="blog list"
     >
       <Drawer

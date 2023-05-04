@@ -10,14 +10,22 @@ export async function action({ request, params }) {
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
   const errors = {};
-  if (updates?.password?.length < 6) {
-    errors.password = 'Password must be > 6 characters';
+  if (updates?.oldPassword?.length < 6) {
+    errors.oldPassword = 'Password must be > 6 characters';
+  }
+  if (updates?.newPassword?.length < 6) {
+    errors.newPassword = 'Password must be > 6 characters';
   }
   if (Object.keys(errors).length) {
     return errors;
   }
-  await updateUserByUsername(params.username, updates);
-  return redirect('/');
+  const { status, payload } = await updateUserByUsername(
+    params.username,
+    updates
+  );
+
+  if (status === 'UPDATE_FAIL') throw new Error(payload);
+  return redirect(`/users/${params.username}`);
 }
 
 export default function UpdatePassword() {
@@ -42,14 +50,27 @@ export default function UpdatePassword() {
         </Typography>
         <Form method="put" id="update-pass">
           <Box sx={{ mt: 1 }}>
+            <span>Old Password</span>
+            <TextFieldGeneric
+              placeholder="Enter New Password"
+              aria-label="New Password"
+              type="password"
+              name="oldPassword"
+            />
+            {errors?.oldPassword && (
+              <span style={{ color: 'red' }}>{errors.oldPassword}</span>
+            )}
+            <br />
             <span>New Password</span>
             <TextFieldGeneric
               placeholder="Enter New Password"
               aria-label="New Password"
               type="password"
-              name="password"
+              name="newPassword"
             />
-            {errors?.password && <span>{errors.password}</span>}
+            {errors?.newPassword && (
+              <span style={{ color: 'red' }}>{errors.newPassword}</span>
+            )}
             <ButtonSubmit label="Update" />
             <Button
               type="button"

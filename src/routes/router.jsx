@@ -11,8 +11,9 @@ import BlogView, {
   loader as blogLoader,
   action as deleteBlogAction,
 } from './BlogView';
+import CreateBlog, { action as createBlogAction } from './CreateBlog';
 import EditBlog, { action as editAction } from './EditBlog';
-import Root, { action as rootAction, loader as rootLoader } from './Root';
+import Root, { loader as rootLoader } from './Root';
 import Signin, { action as signinAction } from './Signin';
 import Signup, { action as signupAction } from './Signup';
 import UpdatePassword, {
@@ -29,29 +30,40 @@ const Router = createBrowserRouter(
       path="/"
       element={<Root />}
       loader={rootLoader}
-      action={rootAction}
       errorElement={<ErrorPage />}
     >
       <Route errorElement={<ErrorPage />}>
         <Route index path="home" element={<HomePage />} />
         <Route path="signin" element={<Signin />} action={signinAction} />
         <Route path="signup" element={<Signup />} action={signupAction} />
-        <Route
-          path="blogs/:blogId"
-          element={<BlogView />}
-          loader={blogLoader}
-          action={deleteBlogAction}
-        />
-        <Route
-          path="blogs/:blogId/edit"
-          element={
-            <WithPrivateRoute>
-              <EditBlog />
-            </WithPrivateRoute>
-          }
-          loader={blogLoader}
-          action={editAction}
-        />
+        <Route path="blogs">
+          <Route
+            path=":blogId"
+            element={<BlogView />}
+            loader={blogLoader}
+            action={deleteBlogAction}
+          />
+          <Route
+            path="create"
+            element={
+              <WithPrivateRoute>
+                <CreateBlog />
+              </WithPrivateRoute>
+            }
+            action={createBlogAction}
+          />
+          <Route
+            path=":blogId/edit"
+            element={
+              <WithPrivateRoute>
+                <EditBlog />
+              </WithPrivateRoute>
+            }
+            loader={blogLoader}
+            action={editAction}
+          />
+        </Route>
+
         <Route
           path="users/:username/"
           element={<User />}
@@ -66,7 +78,11 @@ const Router = createBrowserRouter(
         </Route>
         <Route
           path="users/:username/update"
-          element={<UpdatePassword />}
+          element={
+            <WithPrivateRoute>
+              <UpdatePassword />
+            </WithPrivateRoute>
+          }
           action={updatePasswordAction}
         />
       </Route>

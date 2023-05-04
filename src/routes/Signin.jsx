@@ -6,7 +6,9 @@ import React, { useEffect } from 'react';
 import { Form, Link, useActionData, useNavigate } from 'react-router-dom';
 import ButtonSubmit from '../components/generics/ButtonSubmit';
 import TextFieldGeneric from '../components/generics/TextFieldGeneric';
+import { useAuth } from '../context/authContext';
 import { login } from '../services/authService';
+import { getAuthUsername } from '../utils/jwt';
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -15,36 +17,32 @@ export async function action({ request }) {
   if (!updates?.username.trim()) {
     errors.username = "Username can't be empty or space";
   }
-
-  if (updates?.password?.length < 4) {
-    errors.password = 'Password must be > 4 characters';
+  if (updates?.password?.length < 6) {
+    errors.password = 'Password must be > 6 characters';
   }
-
-  // return data if we have errors
   if (Object.keys(errors).length) {
     return errors;
   }
-
   const { status } = await login(updates);
-  return { status, updates };
+  return { status };
 }
 
 function Signin() {
   const data = useActionData();
   const navigate = useNavigate();
+  const { setIsLoggedIn, setAuthUser } = useAuth();
+  const status = data?.status || null;
+
   useEffect(() => {
-    if (data?.status === 'LOGIN_SUCCESS') {
-      localStorage.setItem('isAuthenticated', JSON.stringify(true));
-      localStorage.setItem(
-        'currentUser',
-        JSON.stringify(data?.updates?.username.toLowerCase())
-      );
-      return navigate(`/`);
+    if (status === 'LOGIN_SUCCESS') {
+      setIsLoggedIn(true);
+      setAuthUser(getAuthUsername());
+      return navigate(`/home`);
     }
-    localStorage.setItem('isAuthenticated', JSON.stringify(false));
-    localStorage.setItem('currentUser', JSON.stringify(null));
-    return navigate(`/signin`);
-  }, [data?.status]);
+    setIsLoggedIn(false);
+    setAuthUser(null);
+    return navigate('/signin');
+  }, [status]);
 
   return (
     <Container maxWidth="sm">
@@ -62,6 +60,17 @@ function Signin() {
         <Typography component="h1" variant="h5">
           Sign In
         </Typography>
+        {status && (
+          <Typography
+            component="h1"
+            variant="h5"
+            style={{
+              color: status === 'LOGIN_SUCCESS' ? 'green' : 'red',
+            }}
+          >
+            {status}
+          </Typography>
+        )}
         <Form method="post" id="signin-form">
           <Box sx={{ mt: 1 }}>
             <TextFieldGeneric
@@ -69,14 +78,18 @@ function Signin() {
               name="username"
               placeholder="Username"
             />
-            {data?.username && <span>{data?.username}</span>}
+            {data?.username && (
+              <span style={{ color: 'red' }}>{data?.username}</span>
+            )}
             <TextFieldGeneric
               type="password"
               id="password"
               name="password"
               placeholder="Password"
             />
-            {data?.password && <span>{data?.password}</span>}
+            {data?.password && (
+              <span style={{ color: 'red' }}>{data?.password}</span>
+            )}
             <ButtonSubmit label="Sign In" />
           </Box>
         </Form>

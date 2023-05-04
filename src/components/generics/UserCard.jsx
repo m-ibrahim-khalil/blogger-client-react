@@ -6,28 +6,24 @@ import {
   Button,
   CardHeader,
   CardMedia,
-  Grid
+  Grid,
 } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import { red } from '@mui/material/colors';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
+import { red } from '@mui/material/colors';
+import { useState } from 'react';
 import { Form, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/authContext';
 import dateTimeFormatter from '../../utils/dateTimeFormatter';
 
 export default function UserCard({ user }) {
   const [showBlog, setShowBlog] = useState(true);
-  const [currentUser, setCurrentUser] = useState(null);
   const { id, avatar, username, email, createdAt, updatedAt } = user;
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const localUser = localStorage.getItem('currentUser');
-    setCurrentUser(localUser ? JSON.parse(localUser) : null);
-  }, []);
+  const { authUser: currentUser } = useAuth();
 
   const handleShowBlogs = () => {
     if (showBlog) navigate(`blogs/${id}`);
@@ -113,7 +109,6 @@ export default function UserCard({ user }) {
                   size="small"
                   type="submit"
                   variant="outlined"
-                  flexShrink={0}
                   style={{
                     backgroundColor: '#863812',
                     color: '#EBE4D2',
@@ -140,7 +135,6 @@ export default function UserCard({ user }) {
                   size="small"
                   type="submit"
                   variant="outlined"
-                  flexShrink={1}
                   style={{
                     borderColor: '#b11e1e',
                     color: '#b11e1e',

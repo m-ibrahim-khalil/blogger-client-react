@@ -1,9 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { useEffect, useState } from 'react';
-import { Outlet, redirect } from 'react-router-dom';
+import { Box } from '@mui/material';
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import MenuAppBar from '../components/layouts/AppBar';
 import SideBarDrawer from '../components/layouts/SideBarDrawer';
-import getBlogs, { createBlog } from '../services/blogService';
+import getBlogs from '../services/blogService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,25 +26,19 @@ export async function loader({ request }) {
   return { blogs };
 }
 
-export async function action() {
-  const blog = await createBlog({
-    title: 'Untitled',
-    description: 'No Description',
-  });
-  return redirect(`/blogs/${blog.id}/edit`);
-}
+// export async function action() {
+//   const blog = await createBlog({
+//     title: 'Untitled',
+//     description: 'No Description',
+//   });
+//   return redirect(`/blogs/${blog.id}/edit`);
+// }
 
 export default function Root() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  useEffect(() => {
-    const localUser = localStorage.getItem('currentUser');
-    setCurrentUser(localUser ? JSON.parse(localUser) : null);
-  }, []);
 
   const classes = useStyles();
   const myProps = {
@@ -51,17 +46,23 @@ export default function Root() {
     drawerWidth,
     mobileOpen,
     setMobileOpen,
-    currentUser,
-    setCurrentUser,
   };
 
   return (
     <div className={classes.root}>
       <MenuAppBar className={classes.appBar} {...myProps} />
       <SideBarDrawer {...myProps} />
-      <main className={classes.content}>
-        <Outlet {...myProps} />
-      </main>
+      <Box
+        className={classes.content}
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
+      >
+        <Outlet />
+      </Box>
     </div>
   );
 }
