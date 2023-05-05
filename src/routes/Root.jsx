@@ -3,7 +3,6 @@ import { Box } from '@mui/material';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import MenuAppBar from '../components/layouts/AppBar';
-import SideBarDrawer from '../components/layouts/SideBarDrawer';
 import getBlogs from '../services/blogService';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,10 +13,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
     marginTop: theme.spacing(8),
+    backgroundColor: '#FAF5E8',
   },
 }));
-
-const drawerWidth = 240;
 
 export async function loader({ request }) {
   const url = new URL(request.url);
@@ -25,14 +23,6 @@ export async function loader({ request }) {
   const blogs = await getBlogs(page);
   return { blogs };
 }
-
-// export async function action() {
-//   const blog = await createBlog({
-//     title: 'Untitled',
-//     description: 'No Description',
-//   });
-//   return redirect(`/blogs/${blog.id}/edit`);
-// }
 
 export default function Root() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -43,7 +33,6 @@ export default function Root() {
   const classes = useStyles();
   const myProps = {
     handleDrawerToggle,
-    drawerWidth,
     mobileOpen,
     setMobileOpen,
   };
@@ -51,16 +40,8 @@ export default function Root() {
   return (
     <div className={classes.root}>
       <MenuAppBar className={classes.appBar} {...myProps} />
-      <SideBarDrawer {...myProps} />
-      <Box
-        className={classes.content}
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
+      {/* <SideBarDrawer {...myProps} /> */}
+      <Box className={classes.content} component="main">
         <Outlet />
       </Box>
     </div>

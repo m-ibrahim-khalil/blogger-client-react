@@ -6,6 +6,7 @@ import {
 import WithPrivateRoute from '../components/HOC/WithPrivateRoute';
 import ErrorPage from '../components/Pages/ErrorPage';
 import HomePage from '../components/Pages/HomePage';
+import BlogListView from './BlogListView';
 import BlogsByAuthor, { loader as blogsByAuthorLoader } from './BlogsByAuthor';
 import BlogView, {
   loader as blogLoader,
@@ -26,43 +27,37 @@ import User, {
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
-    <Route
-      path="/"
-      element={<Root />}
-      loader={rootLoader}
-      errorElement={<ErrorPage />}
-    >
+    <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
       <Route errorElement={<ErrorPage />}>
-        <Route index path="home" element={<HomePage />} />
+        <Route index element={<HomePage />} />
         <Route path="signin" element={<Signin />} action={signinAction} />
         <Route path="signup" element={<Signup />} action={signupAction} />
-        <Route path="blogs">
-          <Route
-            path=":blogId"
-            element={<BlogView />}
-            loader={blogLoader}
-            action={deleteBlogAction}
-          />
-          <Route
-            path="create"
-            element={
-              <WithPrivateRoute>
-                <CreateBlog />
-              </WithPrivateRoute>
-            }
-            action={createBlogAction}
-          />
-          <Route
-            path=":blogId/edit"
-            element={
-              <WithPrivateRoute>
-                <EditBlog />
-              </WithPrivateRoute>
-            }
-            loader={blogLoader}
-            action={editAction}
-          />
-        </Route>
+        <Route path="blogs" element={<BlogListView />} loader={rootLoader} />
+        <Route
+          path="blogs/:blogId"
+          element={<BlogView />}
+          loader={blogLoader}
+          action={deleteBlogAction}
+        />
+        <Route
+          path="blogs/create"
+          element={
+            <WithPrivateRoute>
+              <CreateBlog />
+            </WithPrivateRoute>
+          }
+          action={createBlogAction}
+        />
+        <Route
+          path="blogs/:blogId/edit"
+          element={
+            <WithPrivateRoute>
+              <EditBlog />
+            </WithPrivateRoute>
+          }
+          loader={blogLoader}
+          action={editAction}
+        />
 
         <Route
           path="users/:username/"

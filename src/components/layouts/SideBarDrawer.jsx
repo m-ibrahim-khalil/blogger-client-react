@@ -11,12 +11,14 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/authContext';
 
 const drawerWidth = 240;
 
 function SideBarDrawer(props) {
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
   const { window, handleDrawerToggle, mobileOpen } = props;
   const { blogs } = useLoaderData();
   const { payload, totalPages } = blogs;
@@ -33,16 +35,18 @@ function SideBarDrawer(props) {
   const drawer = (
     <div style={toolbarStyles}>
       <Toolbar>
-        <Button
-          id="create-blog-btn"
-          color="secondary"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-          onClick={() => navigate(`blogs/create`)}
-        >
-          Create Blog
-        </Button>
+        {isLoggedIn && (
+          <Button
+            id="create-blog-btn"
+            color="secondary"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            onClick={() => navigate(`blogs/create`)}
+          >
+            Create Blog
+          </Button>
+        )}
       </Toolbar>
       <Typography
         variant="h6"

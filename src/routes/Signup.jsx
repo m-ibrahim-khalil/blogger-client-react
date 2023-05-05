@@ -34,14 +34,15 @@ export async function action({ request }) {
 function Signup() {
   const data = useActionData();
   const navigate = useNavigate();
-  const { setIsLoggedIn, setAuthUser } = useAuth();
+  const { setIsLoggedIn, setAuthUser, isLoggedIn } = useAuth();
   const status = data?.status || null;
 
   useEffect(() => {
+    if (isLoggedIn) return navigate(`/`);
     if (status === 'REGISTER_SUCCESS') {
       setIsLoggedIn(true);
       setAuthUser(getAuthUsername());
-      return navigate(`/home`);
+      return navigate(`/`);
     }
     setIsLoggedIn(false);
     setAuthUser(null);

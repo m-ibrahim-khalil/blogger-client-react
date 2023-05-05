@@ -19,122 +19,135 @@ import dateTimeFormatter from '../../utils/dateTimeFormatter';
 export default function BlogCard({ blog }) {
   const { authUser: currentUser } = useAuth();
   const { title, description, author, updatedAt, avatar } = blog;
-  console.log(currentUser, author);
   const navigate = useNavigate();
   return (
-    <Card className="blogCard" st>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="blog">
-            B
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={
-          <Typography
-            variant="h6"
-            component="div"
-            style={{
-              fontFamily: 'Poppins',
-              fontWeight: 'bold',
-              color: '#863812',
-            }}
-          >
-            {title}
-          </Typography>
-        }
-        subheader={
-          <>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              <b>Last Modified:</b> {dateTimeFormatter(updatedAt)}
-            </Typography>
+    <div style={{ padding: '3rem' }}>
+      <Typography
+        onClick={() => navigate(-1)}
+        style={{
+          fontSize: '16px',
+          color: '#863812',
+          textDecoration: 'none',
+          marginBottom: '2rem',
+          cursor: 'pointer',
+        }}
+      >
+        ← Go Back
+      </Typography>
+      <Card className="blogCard">
+        <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: red[500] }} aria-label="blog">
+              B
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={
             <Typography
-              onClick={() => navigate(`/users/${author}`)}
-              sx={{ mb: 1.5 }}
+              variant="h6"
+              component="div"
               style={{
                 fontFamily: 'Poppins',
                 fontWeight: 'bold',
                 color: '#863812',
               }}
             >
-              Author: @{author}
+              {title}
             </Typography>
-          </>
-        }
-      />
-      <CardMedia
-        component="img"
-        height="400 px"
-        image={avatar}
-        alt="Blog Cover Photo"
-      />
-      <CardContent>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          style={{ textAlign: 'justify' }}
-        >
-          {description}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        {currentUser === author ? (
-          <Box display="flex">
-            <Form action="edit">
-              <Button
-                size="small"
-                type="submit"
-                variant="outlined"
+          }
+          subheader={
+            <>
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                <b>Last Modified:</b> {dateTimeFormatter(updatedAt)}
+              </Typography>
+              <Typography
+                onClick={() => navigate(`/users/${author}`)}
+                sx={{ mb: 1.5 }}
                 style={{
-                  backgroundColor: '#863812',
-                  color: '#EBE4D2',
-                  marginLeft: '4.5rem',
-                  padding: '0.6rem 1.5rem',
-                  borderRadius: '5px',
+                  fontFamily: 'Poppins',
+                  fontWeight: 'bold',
+                  color: '#863812',
                 }}
               >
-                Edit
-              </Button>
-            </Form>
-            <Form
-              method="post"
-              onSubmit={(event) => {
-                // eslint-disable-next-line no-restricted-globals
-                if (
-                  !confirm('Please confirm you want to delete this record.')
-                ) {
-                  event.preventDefault();
-                }
-              }}
-            >
-              <Button
-                size="small"
-                type="submit"
-                variant="outlined"
-                style={{
-                  borderColor: '#b11e1e',
-                  color: '#b11e1e',
-                  padding: '0.6rem 1.5rem',
-                  borderRadius: '5px',
-                  border: '1.5px',
+                Author: @{author}
+              </Typography>
+            </>
+          }
+        />
+        <CardMedia
+          component="img"
+          height="512 px"
+          image={avatar}
+          alt="Blog Cover Photo"
+        />
+        <CardContent>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            style={{ textAlign: 'justify' }}
+          >
+            {description}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton aria-label="share">
+            <ShareIcon />
+          </IconButton>
+          {currentUser === author ? (
+            <Box display="flex">
+              <Form action="edit">
+                <Button
+                  size="small"
+                  type="submit"
+                  variant="outlined"
+                  style={{
+                    backgroundColor: '#863812',
+                    color: '#EBE4D2',
+                    marginLeft: '4.5rem',
+                    padding: '0.6rem 1.5rem',
+                    borderRadius: '5px',
+                  }}
+                >
+                  Edit
+                </Button>
+              </Form>
+              <Form
+                method="post"
+                onSubmit={(event) => {
+                  // eslint-disable-next-line no-restricted-globals
+                  if (
+                    !confirm('Please confirm you want to delete this record.')
+                  ) {
+                    event.preventDefault();
+                  }
                 }}
               >
-                Delete
-              </Button>
-            </Form>
-          </Box>
-        ) : null}
-      </CardActions>
-    </Card>
+                <Button
+                  size="small"
+                  type="submit"
+                  variant="outlined"
+                  style={{
+                    borderColor: '#b11e1e',
+                    color: '#b11e1e',
+                    padding: '0.6rem 1.5rem',
+                    borderRadius: '5px',
+                    border: '1.5px',
+                  }}
+                >
+                  Delete
+                </Button>
+              </Form>
+            </Box>
+          ) : null}
+        </CardActions>
+      </Card>
+    </div>
   );
 }

@@ -9,13 +9,13 @@ export async function loader({ params }) {
 
 export async function action({ params }) {
   await deleteBlog(params.blogId);
-  return redirect('/');
+  return redirect('/blogs');
 }
 
 export default function BlogView() {
   const { blog } = useLoaderData();
   const blogPost = {
-    avatar: 'https://placekitten.com/g/200/200',
+    avatar: '/images/cats.jpg',
     favorite: true,
     ...blog,
   };

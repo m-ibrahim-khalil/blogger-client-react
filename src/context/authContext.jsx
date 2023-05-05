@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { getAuthUsername } from '../utils/jwt';
 
-const AuthConext = createContext();
+const AuthContext = createContext();
 
-export const useAuth = () => useContext(AuthConext);
+export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
   const [authUser, setAuthUser] = useState(null);
@@ -12,13 +12,11 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const checkLoggedIn = async () => {
       const cuser = getAuthUsername();
-      if (cuser === null) {
-        setIsLoggedIn(false);
-      }
+      console.log('current user: ', cuser);
+      if (cuser) setIsLoggedIn(true);
+      else setIsLoggedIn(false);
       setAuthUser(cuser);
-      setIsLoggedIn(true);
     };
-
     checkLoggedIn();
   }, []);
 
@@ -28,5 +26,5 @@ export function AuthProvider({ children }) {
 
   console.log('usercontext', authUser, 'isLoggedIn: ', isLoggedIn);
 
-  return <AuthConext.Provider value={value}>{children}</AuthConext.Provider>;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

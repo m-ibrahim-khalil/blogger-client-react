@@ -23,7 +23,7 @@ export default function UserCard({ user }) {
   const [showBlog, setShowBlog] = useState(true);
   const { id, avatar, username, email, createdAt, updatedAt } = user;
   const navigate = useNavigate();
-  const { authUser: currentUser } = useAuth();
+  const { authUser: currentUser, setAuthUser, setIsLoggedIn } = useAuth();
 
   const handleShowBlogs = () => {
     if (showBlog) navigate(`blogs/${id}`);
@@ -65,7 +65,7 @@ export default function UserCard({ user }) {
       />
       <CardMedia
         component="img"
-        height="400 px"
+        height="1024 px"
         image={avatar}
         alt="User Cover Photo"
         title="Cat"
@@ -129,6 +129,8 @@ export default function UserCard({ user }) {
                   ) {
                     event.preventDefault();
                   }
+                  setAuthUser(null);
+                  setIsLoggedIn(false);
                 }}
               >
                 <Button

@@ -4,6 +4,7 @@ import {
   deleteUserByUsername,
   getUserByUsername,
 } from '../services/userService';
+import { removeCoockie } from '../utils/jwt';
 
 export async function loader({ params }) {
   const user = await getUserByUsername(params.username);
@@ -12,13 +13,14 @@ export async function loader({ params }) {
 
 export async function action({ params }) {
   await deleteUserByUsername(params.username);
-  return redirect(`/`);
+  removeCoockie();
+  return redirect(`/blogs`);
 }
 
 export default function User() {
   const { payload: user } = useLoaderData();
   const userCard = {
-    avatar: 'https://placekitten.com/g/200/200',
+    avatar: '/images/cat.jpg',
     ...user,
   };
 

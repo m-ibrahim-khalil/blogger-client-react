@@ -1,11 +1,9 @@
 import { Box, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import React from 'react';
+import Pagination from '@mui/material/Pagination';
+import React, { useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
+import BlogListCard from '../components/generics/BlogListCard';
 import { getBlogsByAuthor } from '../services/blogService';
 
 export async function loader({ params }) {
@@ -14,9 +12,15 @@ export async function loader({ params }) {
 }
 
 export default function BlogsByAuthor() {
+  const [page, setPage] = useState(1);
   const { blogs } = useLoaderData();
-  const { payload } = blogs;
   const navigate = useNavigate();
+  const { payload, totalPages } = blogs;
+
+  const handleChange = (event, value) => {
+    setPage(value);
+    navigate(`/?page=${value}`);
+  };
 
   return (
     <Box
@@ -36,27 +40,14 @@ export default function BlogsByAuthor() {
               color: '#863812',
             }}
           >
-            {payload[0].author}'s Blogs
+            {payload[0].author}&#39;s Blogs
           </Typography>
           <Divider />
-          <nav>
-            <List>
-              {payload.map((blog) => (
-                <ListItem key={blog.id} disablePadding>
-                  <ListItemButton
-                    style={{
-                      color: '#863812',
-                      background: 'inherit',
-                      border: '2.5px solid',
-                    }}
-                    onClick={() => navigate(`/blogs/${blog.id}`)}
-                  >
-                    <ListItemText primary={blog.title} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </List>
-          </nav>
+          <div>
+            {payload.map((blog) => (
+              <BlogListCard key={blog.id} blog={blog} />
+            ))}
+          </div>
         </>
       ) : (
         <Typography
@@ -70,6 +61,7 @@ export default function BlogsByAuthor() {
           <i>No blogs</i>
         </Typography>
       )}
+      <Pagination count={totalPages} page={page} onChange={handleChange} />
     </Box>
   );
 }

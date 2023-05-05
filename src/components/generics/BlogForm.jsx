@@ -9,11 +9,7 @@ import {
 } from '@mui/material';
 
 import React from 'react';
-import {
-  Form,
-  useActionData,
-  useNavigate
-} from 'react-router-dom';
+import { Form, useActionData, useNavigate } from 'react-router-dom';
 import ButtonSubmit from './ButtonSubmit';
 
 export default function BlogForm({ blog }) {
@@ -53,7 +49,8 @@ export default function BlogForm({ blog }) {
             <br />
             <span>Description</span>
             <TextareaAutosize
-              maxRows={4}
+              minRows={6}
+              maxRows={10}
               id="description"
               name="description"
               aria-label="Description"
