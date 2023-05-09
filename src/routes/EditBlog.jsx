@@ -2,18 +2,12 @@ import { redirect, useLoaderData } from 'react-router-dom';
 import { BlogForm } from '../includes/components';
 import { updateBlog } from '../services';
 import { getAuthUsername } from '../utils/jwt';
+import validateFormData from '../utils/inputValidation';
 
 export async function action({ request, params }) {
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
-  const errors = {};
-  if (!updates?.title.trim()) {
-    errors.title = "Title can't be empty or space";
-  }
-
-  if (!updates?.description.trim()) {
-    errors.description = "Description can't be empty or space";
-  }
+  const errors = validateFormData(updates);
 
   if (Object.keys(errors).length) {
     return errors;

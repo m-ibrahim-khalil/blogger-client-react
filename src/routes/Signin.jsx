@@ -7,17 +7,12 @@ import { useAuth } from '../context/authContext';
 import { ButtonSubmit, SingleLineTextField } from '../includes/components';
 import { login } from '../services';
 import { getAuthUsername } from '../utils/jwt';
+import validateFormData from '../utils/inputValidation';
 
 export async function action({ request }) {
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
-  const errors = {};
-  if (!updates?.username.trim()) {
-    errors.username = "Username can't be empty or space";
-  }
-  if (updates?.password?.length < 6) {
-    errors.password = 'Password must be > 6 characters';
-  }
+  const errors = validateFormData(updates);
   if (Object.keys(errors).length) {
     return errors;
   }

@@ -11,7 +11,7 @@ function ButtonOutlined({ children, background, opacity, ...rest }) {
       style={{
         backgroundColor: background || '#863812',
         color: '#EBE4D2',
-        opacity: opacity || 0,
+        opacity: opacity || 1,
         marginLeft: '4.5rem',
         padding: '0.6rem 1.5rem',
         borderRadius: '5px',
