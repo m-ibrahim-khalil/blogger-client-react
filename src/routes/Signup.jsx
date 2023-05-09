@@ -3,9 +3,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Box, Container, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { Form, Link, useActionData, useNavigate } from 'react-router-dom';
-import ButtonGeneric from '../components/generics/ButtonSubmit';
-import TextFieldGeneric from '../components/generics/TextFieldGeneric';
 import { useAuth } from '../context/authContext';
+import { ButtonSubmit, SingleLineTextField } from '../includes/components';
 import { register } from '../services/authService';
 import { getAuthUsername } from '../utils/jwt';
 
@@ -47,7 +46,7 @@ function Signup() {
     setIsLoggedIn(false);
     setAuthUser(null);
     return navigate('/signup');
-  }, [status]);
+  }, [status, isLoggedIn]);
 
   return (
     <Container maxWidth="sm">
@@ -79,7 +78,7 @@ function Signup() {
 
         <Form method="post" id="signup-form">
           <Box sx={{ mt: 3 }}>
-            <TextFieldGeneric
+            <SingleLineTextField
               id="username"
               name="username"
               placeholder="Username"
@@ -87,13 +86,13 @@ function Signup() {
             {data?.username && (
               <span style={{ color: 'red' }}>{data?.username}</span>
             )}
-            <TextFieldGeneric
+            <SingleLineTextField
               id="email"
               name="email"
               placeholder="Email Adress"
             />
             {data?.email && <span style={{ color: 'red' }}>{data.email}</span>}
-            <TextFieldGeneric
+            <SingleLineTextField
               type="password"
               id="password"
               name="password"
@@ -102,7 +101,7 @@ function Signup() {
             {data?.password && (
               <span style={{ color: 'red' }}>{data.password}</span>
             )}
-            <ButtonGeneric label="Sign Up" />
+            <ButtonSubmit>Sign Up</ButtonSubmit>
           </Box>
         </Form>
         <Link to="/signin">Already have an account? Sign in</Link>

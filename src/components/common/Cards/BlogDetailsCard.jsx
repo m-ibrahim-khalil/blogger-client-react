@@ -11,15 +11,33 @@ import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
+import { useState } from 'react';
 import { Form, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/authContext';
-import dateTimeFormatter from '../../utils/dateTimeFormatter';
-import ButtonOutlined from '../common/Button/Outlined';
+import { useAuth } from '../../../context/authContext';
+import { deleteBlog } from '../../../services/blogService';
+import dateTimeFormatter from '../../../utils/dateTimeFormatter';
+import { ButtonOutlined } from '../Button';
+import AlertDialog from '../Dialog/AlertDialog';
 
-export default function BlogCard({ blog }) {
+export default function BlogDetailsCard({ blog }) {
+  const [open, setOpen] = useState(false);
   const { authUser: currentUser } = useAuth();
   const { title, description, author, updatedAt, avatar } = blog;
   const navigate = useNavigate();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = async (ok = false) => {
+    setOpen(false);
+    if (ok) {
+      await deleteBlog(blog.id);
+      return navigate('/blogs');
+    }
+    return null;
+  };
+
   return (
     <div style={{ padding: '3rem' }}>
       <Typography
@@ -105,19 +123,13 @@ export default function BlogCard({ blog }) {
               <Form action="edit">
                 <ButtonOutlined>Edit</ButtonOutlined>
               </Form>
-              <Form
-                method="post"
-                onSubmit={(event) => {
-                  // eslint-disable-next-line no-restricted-globals
-                  if (
-                    !confirm('Please confirm you want to delete this record.')
-                  ) {
-                    event.preventDefault();
-                  }
-                }}
-              >
-                <ButtonOutlined>Delete</ButtonOutlined>
-              </Form>
+              <ButtonOutlined onClick={handleClickOpen}>Delete</ButtonOutlined>
+              <AlertDialog
+                title="Do you want to delete this blog!"
+                description="Deleting your blog will remove the blog permanantly from our database. This cannot be undone."
+                open={open}
+                handleClose={handleClose}
+              />
             </Box>
           ) : null}
         </CardActions>

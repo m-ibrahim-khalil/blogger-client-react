@@ -1,9 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@mui/material';
-import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import MenuAppBar from '../components/layouts/AppBar';
-import getBlogs from '../services/blogService';
+import { MenuAppBar } from '../includes/components';
+import { getBlogs } from '../services';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,22 +24,11 @@ export async function loader({ request }) {
 }
 
 export default function Root() {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
   const classes = useStyles();
-  const myProps = {
-    handleDrawerToggle,
-    mobileOpen,
-    setMobileOpen,
-  };
 
   return (
     <div className={classes.root}>
-      <MenuAppBar className={classes.appBar} {...myProps} />
-      {/* <SideBarDrawer {...myProps} /> */}
+      <MenuAppBar className={classes.appBar} />
       <Box className={classes.content} component="main">
         <Outlet />
       </Box>

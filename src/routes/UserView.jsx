@@ -1,9 +1,6 @@
 import { Outlet, redirect, useLoaderData } from 'react-router-dom';
-import UserCard from '../components/generics/UserCard';
-import {
-  deleteUserByUsername,
-  getUserByUsername,
-} from '../services/userService';
+import { UserDetailsCard } from '../includes/components';
+import { deleteUserByUsername, getUserByUsername } from '../services';
 import { removeCoockie } from '../utils/jwt';
 
 export async function loader({ params }) {
@@ -26,7 +23,7 @@ export default function User() {
 
   return (
     <>
-      <UserCard user={userCard} />
+      <UserDetailsCard user={userCard} />
       <Outlet />
     </>
   );

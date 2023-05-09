@@ -1,16 +1,10 @@
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  TextareaAutosize,
-  Typography,
-} from '@mui/material';
+import { Avatar, Box, Container, Typography } from '@mui/material';
 
 import React from 'react';
 import { Form, useActionData, useNavigate } from 'react-router-dom';
-import ButtonSubmit from './ButtonSubmit';
+import ButtonOutlined from '../common/Button/Outlined';
+import { MultiLineTextField } from '../common/TextField';
 
 export default function BlogForm({ blog }) {
   const errors = useActionData();
@@ -34,43 +28,33 @@ export default function BlogForm({ blog }) {
         <Form method="post" id="edit-blog-form">
           <Box sx={{ mt: 1 }}>
             <span>Title</span>
-            <TextareaAutosize
-              maxRows={2}
-              id="title"
+            <MultiLineTextField
+              minRows={2}
               name="title"
-              aria-label="Title"
-              placeholder="Title"
               defaultValue={blog?.title}
-              style={{ width: 600 }}
             />
             {errors?.title && (
               <span style={{ color: 'red' }}>{errors?.title}</span>
             )}
             <br />
             <span>Description</span>
-            <TextareaAutosize
+            <MultiLineTextField
               minRows={6}
-              maxRows={10}
-              id="description"
               name="description"
-              aria-label="Description"
-              placeholder="Description"
               defaultValue={blog?.description}
-              style={{ width: 600 }}
             />
             {errors?.description && (
               <span style={{ color: 'red' }}>{errors?.description}</span>
             )}
-            <ButtonSubmit label="Save" />
-            <Button
-              type="button"
-              color="primary"
-              onClick={() => {
+            <ButtonOutlined>Save</ButtonOutlined>
+            <ButtonOutlined
+              onClick={(event) => {
+                event.preventDefault();
                 navigate(-1);
               }}
             >
               Cancel
-            </Button>
+            </ButtonOutlined>
           </Box>
         </Form>
       </Box>

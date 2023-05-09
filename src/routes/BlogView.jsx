@@ -1,6 +1,6 @@
 import { redirect, useLoaderData } from 'react-router-dom';
-import BlogCard from '../components/generics/BlogCard';
-import { deleteBlog, getBlogById } from '../services/blogService';
+import { BlogDetailsCard } from '../includes/components';
+import { deleteBlog, getBlogById } from '../services';
 
 export async function loader({ params }) {
   const blog = await getBlogById(params.blogId);
@@ -20,5 +20,5 @@ export default function BlogView() {
     ...blog,
   };
 
-  return <BlogCard blog={blogPost} />;
+  return <BlogDetailsCard blog={blogPost} />;
 }

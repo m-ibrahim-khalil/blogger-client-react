@@ -1,6 +1,6 @@
 import Axios from './api/axios';
 
-export default async function getBlogs(page = 1, size = 10) {
+export async function getBlogs(page = 1, size = 10) {
   try {
     const response = await Axios.get(`stories?page=${page - 1}&size=${size}`);
     return response.data.message;
@@ -48,8 +48,10 @@ export async function updateBlog(id, blog) {
 export async function deleteBlog(id) {
   try {
     const response = await Axios.delete(`stories/${id}`);
+    console.log('deleted');
     return { status: 'DELETE_SUCCESS', payload: response.data.message };
   } catch (err) {
+    console.log('not deleted');
     return { status: 'DELETE_FAIL', payload: err.response.data.message };
   }
 }

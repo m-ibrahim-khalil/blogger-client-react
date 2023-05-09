@@ -1,6 +1,6 @@
 import { redirect, useLoaderData } from 'react-router-dom';
 import BlogForm from '../components/generics/BlogForm';
-import { updateBlog } from '../services/blogService';
+import { updateBlog } from '../services';
 import { getAuthUsername } from '../utils/jwt';
 
 export async function action({ request, params }) {

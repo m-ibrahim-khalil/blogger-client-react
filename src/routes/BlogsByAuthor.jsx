@@ -3,8 +3,8 @@ import Divider from '@mui/material/Divider';
 import Pagination from '@mui/material/Pagination';
 import React, { useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import BlogListCard from '../components/generics/BlogListCard';
-import { getBlogsByAuthor } from '../services/blogService';
+import { BlogListCard } from '../includes/components';
+import { getBlogsByAuthor } from '../services';
 
 export async function loader({ params }) {
   const blogs = await getBlogsByAuthor(params?.authorId);

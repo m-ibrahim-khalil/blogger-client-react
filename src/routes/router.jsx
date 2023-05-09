@@ -3,9 +3,7 @@ import {
   createRoutesFromElements,
   Route,
 } from 'react-router-dom';
-import WithPrivateRoute from '../components/HOC/WithPrivateRoute';
-import ErrorPage from '../components/Pages/ErrorPage';
-import HomePage from '../components/Pages/HomePage';
+import { ErrorPage, HomePage, WithPrivateRoute } from '../includes/components';
 import BlogListView from './BlogListView';
 import BlogsByAuthor, { loader as blogsByAuthorLoader } from './BlogsByAuthor';
 import BlogView, {

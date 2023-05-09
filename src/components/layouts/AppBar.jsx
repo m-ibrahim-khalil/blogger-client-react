@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import { removeCoockie } from '../../utils/jwt';
+import { ButtonOutlined } from '../common/Button';
 
 export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -41,7 +42,7 @@ export default function MenuAppBar() {
 
   return (
     <AppBar>
-      <Toolbar>
+      <Toolbar sx={{ gap: 2 }}>
         <Typography
           color="inherit"
           variant="h5"
@@ -52,13 +53,18 @@ export default function MenuAppBar() {
         </Typography>
 
         {authUser && (
-          <Typography
-            color="inherit"
-            variant="h6"
-            onClick={() => navigate(`/users/${authUser}`)}
-          >
-            {authUser}
-          </Typography>
+          <>
+            <ButtonOutlined onClick={() => navigate(`/blogs/create`)}>
+              Create Blog
+            </ButtonOutlined>
+            <Typography
+              color="inherit"
+              variant="h6"
+              onClick={() => navigate(`/users/${authUser}`)}
+            >
+              Hi {authUser}
+            </Typography>
+          </>
         )}
         <IconButton
           size="large"
@@ -87,9 +93,6 @@ export default function MenuAppBar() {
         >
           {authUser ? (
             <Stack>
-              {/* <MenuItem onClick={handleClose}>
-                <Link to={`users/${authUser}`}>{authUser}</Link>
-              </MenuItem> */}
               <MenuItem onClick={handleProfile}>My account</MenuItem>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Stack>

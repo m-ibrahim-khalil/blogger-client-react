@@ -9,15 +9,35 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import { useState } from 'react';
 import { Form, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/authContext';
-import dateTimeFormatter from '../../utils/dateTimeFormatter';
-import ButtonOutlined from '../common/Button/Outlined';
+import { useAuth } from '../../../context/authContext';
+import { deleteUserByUsername } from '../../../services/userService';
+import dateTimeFormatter from '../../../utils/dateTimeFormatter';
+import { removeCoockie } from '../../../utils/jwt';
+import { ButtonOutlined } from '../Button';
+import AlertDialog from '../Dialog/AlertDialog';
 
 export default function UserCard({ user }) {
+  const [open, setOpen] = useState(false);
   const [showBlog, setShowBlog] = useState(true);
   const { id, avatar, username, email, createdAt, updatedAt } = user;
   const navigate = useNavigate();
   const { authUser: currentUser, setAuthUser, setIsLoggedIn } = useAuth();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = async (ok = false) => {
+    setOpen(false);
+    if (ok) {
+      await deleteUserByUsername(username);
+      removeCoockie();
+      setAuthUser(null);
+      setIsLoggedIn(false);
+      return navigate(`/blogs`);
+    }
+    return null;
+  };
 
   const handleShowBlogs = () => {
     if (showBlog) navigate(`blogs/${id}`);
@@ -89,21 +109,14 @@ export default function UserCard({ user }) {
               <Form action="update">
                 <ButtonOutlined>Update Password</ButtonOutlined>
               </Form>
-              <Form
-                method="post"
-                onSubmit={(event) => {
-                  // eslint-disable-next-line no-restricted-globals
-                  if (
-                    !confirm('Please confirm you want to delete this record.')
-                  ) {
-                    event.preventDefault();
-                  }
-                  setAuthUser(null);
-                  setIsLoggedIn(false);
-                }}
-              >
-                <ButtonOutlined>Delete Account</ButtonOutlined>
-              </Form>
+
+              <ButtonOutlined onClick={handleClickOpen}>Delete</ButtonOutlined>
+              <AlertDialog
+                title="Do you want to delete this blog!"
+                description="Deleting your blog will remove the blog permanantly from our database. This cannot be undone."
+                open={open}
+                handleClose={handleClose}
+              />
             </Box>
           ) : null}
         </CardActions>

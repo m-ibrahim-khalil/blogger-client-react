@@ -1,10 +1,9 @@
 import Avatar from '@material-ui/core/Avatar';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import { Form, redirect, useActionData, useNavigate } from 'react-router-dom';
-import ButtonSubmit from '../components/generics/ButtonSubmit';
-import TextFieldGeneric from '../components/generics/TextFieldGeneric';
-import { updateUserByUsername } from '../services/userService';
+import { ButtonOutlined, SingleLineTextField } from '../includes/components';
+import { updateUserByUsername } from '../services';
 
 export async function action({ request, params }) {
   const formData = await request.formData();
@@ -51,9 +50,8 @@ export default function UpdatePassword() {
         <Form method="put" id="update-pass">
           <Box sx={{ mt: 1 }}>
             <span>Old Password</span>
-            <TextFieldGeneric
+            <SingleLineTextField
               placeholder="Enter New Password"
-              aria-label="New Password"
               type="password"
               name="oldPassword"
             />
@@ -62,25 +60,23 @@ export default function UpdatePassword() {
             )}
             <br />
             <span>New Password</span>
-            <TextFieldGeneric
+            <SingleLineTextField
               placeholder="Enter New Password"
-              aria-label="New Password"
               type="password"
               name="newPassword"
             />
             {errors?.newPassword && (
               <span style={{ color: 'red' }}>{errors.newPassword}</span>
             )}
-            <ButtonSubmit label="Update" />
-            <Button
-              type="button"
-              color="primary"
-              onClick={() => {
+            <ButtonOutlined>Update</ButtonOutlined>
+            <ButtonOutlined
+              onClick={(event) => {
+                event.preventDefault();
                 navigate(-1);
               }}
             >
               Cancel
-            </Button>
+            </ButtonOutlined>
           </Box>
         </Form>
       </Box>

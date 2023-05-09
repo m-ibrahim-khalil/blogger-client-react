@@ -5,7 +5,6 @@ import { useAuth } from '../../context/authContext';
 function WithPrivateRoute({ children }) {
   const { authUser } = useAuth();
   const { username } = useParams();
-  console.log(authUser, username);
 
   if (authUser) {
     if (!username) return children;

@@ -1,13 +1,11 @@
-/* eslint-disable react/no-unescaped-entities */
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Box, Container, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { Form, Link, useActionData, useNavigate } from 'react-router-dom';
-import ButtonSubmit from '../components/generics/ButtonSubmit';
-import TextFieldGeneric from '../components/generics/TextFieldGeneric';
 import { useAuth } from '../context/authContext';
-import { login } from '../services/authService';
+import { ButtonSubmit, SingleLineTextField } from '../includes/components';
+import { login } from '../services';
 import { getAuthUsername } from '../utils/jwt';
 
 export async function action({ request }) {
@@ -43,7 +41,7 @@ function Signin() {
     setIsLoggedIn(false);
     setAuthUser(null);
     return navigate('/signin');
-  }, [status]);
+  }, [status, isLoggedIn]);
 
   return (
     <Container maxWidth="sm">
@@ -74,27 +72,22 @@ function Signin() {
         )}
         <Form method="post" id="signin-form">
           <Box sx={{ mt: 1 }}>
-            <TextFieldGeneric
-              id="username"
-              name="username"
-              placeholder="Username"
-            />
+            <SingleLineTextField name="username" placeholder="Username" />
             {data?.username && (
               <span style={{ color: 'red' }}>{data?.username}</span>
             )}
-            <TextFieldGeneric
+            <SingleLineTextField
               type="password"
-              id="password"
               name="password"
               placeholder="Password"
             />
             {data?.password && (
               <span style={{ color: 'red' }}>{data?.password}</span>
             )}
-            <ButtonSubmit label="Sign In" />
+            <ButtonSubmit>Sign In</ButtonSubmit>
           </Box>
         </Form>
-        <Link to="/signup">Don't have an account? Sign Up</Link>
+        <Link to="/signup">Don&#39;t have an account? Sign Up</Link>
       </Box>
     </Container>
   );

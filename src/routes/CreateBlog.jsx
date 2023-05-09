@@ -1,6 +1,6 @@
 import { redirect } from 'react-router-dom';
 import BlogForm from '../components/generics/BlogForm';
-import { createBlog } from '../services/blogService';
+import { createBlog } from '../services';
 
 export async function action({ request }) {
   const formData = await request.formData();

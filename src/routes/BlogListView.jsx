@@ -4,7 +4,7 @@ import Pagination from '@mui/material/Pagination';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Outlet, useLoaderData, useNavigate } from 'react-router-dom';
-import BlogListCard from '../components/generics/BlogListCard';
+import { BlogListCard } from '../includes/components';
 
 function BlogListView() {
   const [page, setPage] = useState(1);
@@ -17,8 +17,8 @@ function BlogListView() {
     navigate(`/?page=${value}`);
   };
 
-  const drawer = (
-    <div>
+  return (
+    <Box component="nav" aria-label="blog list">
       <Typography
         variant="h6"
         align="center"
@@ -39,12 +39,6 @@ function BlogListView() {
       <Divider />
       <Outlet />
       <Pagination count={totalPages} page={page} onChange={handleChange} />
-    </div>
-  );
-
-  return (
-    <Box component="nav" aria-label="blog list">
-      {drawer}
     </Box>
   );
 }
