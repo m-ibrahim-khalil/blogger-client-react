@@ -30,5 +30,5 @@ export default function EditBlog() {
     return <p>You have no access to edit the blog</p>;
   }
 
-  return <BlogForm blog={blog} />;
+  return <BlogForm blog={blog} option="Edit" />;
 }

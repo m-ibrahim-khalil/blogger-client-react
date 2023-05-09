@@ -4,7 +4,7 @@ import { Form, useActionData, useNavigate } from 'react-router-dom';
 import { ButtonOutlined } from '../Button';
 import { MultiLineTextField } from '../TextField';
 
-export default function BlogForm({ blog }) {
+export default function BlogForm({ blog, option }) {
   const errors = useActionData();
   const navigate = useNavigate();
   return (
@@ -21,7 +21,7 @@ export default function BlogForm({ blog }) {
           <BorderColorIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Edit Blog
+          {option} Blog
         </Typography>
         <Form method="post" id="edit-blog-form">
           <Box sx={{ mt: 1 }}>
@@ -44,6 +44,7 @@ export default function BlogForm({ blog }) {
             {errors?.description && (
               <span style={{ color: 'red' }}>{errors?.description}</span>
             )}
+            <br />
             <ButtonOutlined>Save</ButtonOutlined>
             <ButtonOutlined
               onClick={(event) => {

@@ -25,5 +25,5 @@ export async function action({ request }) {
 
 export default function CreateBlog() {
   //   const blog = { title: '', description: '' };
-  return <BlogForm />;
+  return <BlogForm option="Create" />;
 }

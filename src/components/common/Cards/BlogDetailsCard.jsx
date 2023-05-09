@@ -40,18 +40,39 @@ export default function BlogDetailsCard({ blog }) {
 
   return (
     <div style={{ padding: '3rem' }}>
-      <Typography
-        onClick={() => navigate(-1)}
+      <div
         style={{
-          fontSize: '16px',
-          color: '#863812',
-          textDecoration: 'none',
-          marginBottom: '2rem',
-          cursor: 'pointer',
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '5rem',
         }}
       >
-        ← Go Back
-      </Typography>
+        <Typography
+          onClick={() => navigate(-1)}
+          style={{
+            fontSize: '16px',
+            color: '#863812',
+            textDecoration: 'none',
+            marginBottom: '2rem',
+            cursor: 'pointer',
+          }}
+        >
+          ← Go Back
+        </Typography>
+        <Typography
+          onClick={() => navigate('/blogs')}
+          style={{
+            fontSize: '16px',
+            color: '#863812',
+            textDecoration: 'none',
+            marginBottom: '2rem',
+            cursor: 'pointer',
+          }}
+        >
+          Show All Blogs
+        </Typography>
+      </div>
+
       <Card className="blogCard">
         <CardHeader
           avatar={

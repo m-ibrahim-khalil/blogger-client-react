@@ -54,7 +54,11 @@ export default function MenuAppBar() {
 
         {authUser && (
           <>
-            <ButtonOutlined onClick={() => navigate(`/blogs/create`)}>
+            <ButtonOutlined
+              background="#073c3a"
+              opacity="0.8"
+              onClick={() => navigate(`/blogs/create`)}
+            >
               Create Blog
             </ButtonOutlined>
             <Typography

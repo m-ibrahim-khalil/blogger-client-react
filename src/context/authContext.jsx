@@ -12,7 +12,6 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const checkLoggedIn = async () => {
       const cuser = getAuthUsername();
-      console.log('current user: ', cuser);
       if (cuser) setIsLoggedIn(true);
       else setIsLoggedIn(false);
       setAuthUser(cuser);
@@ -23,8 +22,6 @@ export function AuthProvider({ children }) {
   const value = useMemo(() => {
     return { authUser, setAuthUser, isLoggedIn, setIsLoggedIn };
   }, [authUser, setAuthUser, isLoggedIn, setIsLoggedIn]);
-
-  console.log('usercontext', authUser, 'isLoggedIn: ', isLoggedIn);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

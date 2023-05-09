@@ -35,7 +35,6 @@ export async function updateUserByUsername(username, data) {
 
 export async function deleteUserByUsername(username) {
   try {
-    console.log('On Delete User: ', username);
     const response = await Axios.delete(`users/${username}`);
     return { status: 'DELETE_SUCCESS', payload: response.data.message };
   } catch (err) {

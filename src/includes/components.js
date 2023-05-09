@@ -3,29 +3,28 @@ import ErrorPage from '../components/Pages/ErrorPage';
 import HomePage from '../components/Pages/HomePage';
 import { ButtonOutlined, ButtonSubmit } from '../components/common/Button';
 import {
-    BlogDetailsCard,
-    BlogListCard,
-    UserDetailsCard,
+  BlogDetailsCard,
+  BlogListCard,
+  UserDetailsCard,
 } from '../components/common/Cards';
 import BlogForm from '../components/common/Form';
 import {
-    MultiLineTextField,
-    SingleLineTextField,
+  MultiLineTextField,
+  SingleLineTextField,
 } from '../components/common/TextField';
 import MenuAppBar from '../components/layouts/AppBar';
 
 export {
-    ButtonOutlined,
-    ButtonSubmit,
-    BlogDetailsCard,
-    BlogListCard,
-    UserDetailsCard,
-    MultiLineTextField,
-    SingleLineTextField,
-    WithPrivateRoute,
-    MenuAppBar,
-    HomePage,
-    ErrorPage,
-    BlogForm,
+  ButtonOutlined,
+  ButtonSubmit,
+  BlogDetailsCard,
+  BlogListCard,
+  UserDetailsCard,
+  MultiLineTextField,
+  SingleLineTextField,
+  WithPrivateRoute,
+  MenuAppBar,
+  HomePage,
+  ErrorPage,
+  BlogForm,
 };
-

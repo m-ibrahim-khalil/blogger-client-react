@@ -1,5 +1,6 @@
 module.exports = {
   env: {
+    es6: true,
     browser: true,
     es2021: true,
   },
@@ -9,6 +10,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
+    'prettier',
   ],
   overrides: [],
   parserOptions: {
@@ -24,7 +26,6 @@ module.exports = {
     'react/jsx-props-no-spreading': 0,
     'no-use-before-define': 0,
     'react/no-children-prop': 0,
-    // 'prettier/prettier': 0
+    'prettier/prettier': 'error',
   },
-
 };
