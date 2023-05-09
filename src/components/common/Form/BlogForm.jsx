@@ -1,10 +1,8 @@
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Avatar, Box, Container, Typography } from '@mui/material';
-
-import React from 'react';
 import { Form, useActionData, useNavigate } from 'react-router-dom';
-import ButtonOutlined from '../common/Button/Outlined';
-import { MultiLineTextField } from '../common/TextField';
+import { ButtonOutlined } from '../Button';
+import { MultiLineTextField } from '../TextField';
 
 export default function BlogForm({ blog }) {
   const errors = useActionData();

@@ -1,5 +1,5 @@
 import { redirect, useLoaderData } from 'react-router-dom';
-import BlogForm from '../components/generics/BlogForm';
+import { BlogForm } from '../includes/components';
 import { updateBlog } from '../services';
 import { getAuthUsername } from '../utils/jwt';
 

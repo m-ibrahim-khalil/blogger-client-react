@@ -18,9 +18,11 @@ export async function getBlogById(id) {
   }
 }
 
-export async function getBlogsByAuthor(authorId) {
+export async function getBlogsByAuthor(authorId, page, size = 10) {
   try {
-    const response = await Axios.get(`stories/author/${authorId}`);
+    const response = await Axios.get(
+      `stories/author/${authorId}/?page=${page - 1}&size=${size}`
+    );
     return response.data.message;
   } catch (err) {
     return err.response.data.message;

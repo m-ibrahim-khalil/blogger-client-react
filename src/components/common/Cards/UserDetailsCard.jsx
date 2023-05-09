@@ -16,10 +16,10 @@ import { removeCoockie } from '../../../utils/jwt';
 import { ButtonOutlined } from '../Button';
 import AlertDialog from '../Dialog/AlertDialog';
 
-export default function UserCard({ user }) {
+export default function UserDetailsCard({ user }) {
   const [open, setOpen] = useState(false);
   const [showBlog, setShowBlog] = useState(true);
-  const { id, avatar, username, email, createdAt, updatedAt } = user;
+  const { id, avatar, username, email, createdAt } = user;
   const navigate = useNavigate();
   const { authUser: currentUser, setAuthUser, setIsLoggedIn } = useAuth();
 
@@ -93,11 +93,6 @@ export default function UserCard({ user }) {
               />
               <span>{email}</span>
             </div>
-          </Grid>
-          <Grid item xs={8}>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              <b>Password Last Updated:</b> {dateTimeFormatter(updatedAt)}
-            </Typography>
           </Grid>
         </Grid>
         <CardActions>

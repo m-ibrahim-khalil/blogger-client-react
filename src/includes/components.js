@@ -7,6 +7,7 @@ import {
     BlogListCard,
     UserDetailsCard,
 } from '../components/common/Cards';
+import BlogForm from '../components/common/Form';
 import {
     MultiLineTextField,
     SingleLineTextField,
@@ -25,5 +26,6 @@ export {
     MenuAppBar,
     HomePage,
     ErrorPage,
+    BlogForm,
 };
 

@@ -2,24 +2,27 @@ import { Box, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Pagination from '@mui/material/Pagination';
 import React, { useState } from 'react';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import { BlogListCard } from '../includes/components';
 import { getBlogsByAuthor } from '../services';
 
-export async function loader({ params }) {
-  const blogs = await getBlogsByAuthor(params?.authorId);
+export async function loader({ params, request }) {
+  const url = new URL(request.url);
+  const page = url.searchParams.get('page') || 1;
+  const blogs = await getBlogsByAuthor(params?.authorId, page);
   return { blogs };
 }
 
 export default function BlogsByAuthor() {
-  const [page, setPage] = useState(1);
+  const [searchParams] = useSearchParams();
+  const [page, setPage] = useState(parseInt(searchParams.get('page'), 10) || 1);
   const { blogs } = useLoaderData();
   const navigate = useNavigate();
   const { payload, totalPages } = blogs;
 
   const handleChange = (event, value) => {
     setPage(value);
-    navigate(`/?page=${value}`);
+    navigate(`?page=${value}`);
   };
 
   return (
@@ -48,6 +51,7 @@ export default function BlogsByAuthor() {
               <BlogListCard key={blog.id} blog={blog} />
             ))}
           </div>
+          <Pagination count={totalPages} page={page} onChange={handleChange} />
         </>
       ) : (
         <Typography
@@ -58,10 +62,9 @@ export default function BlogsByAuthor() {
             color: '#863812',
           }}
         >
-          <i>No blogs</i>
+          <i>No Blogs Found</i>
         </Typography>
       )}
-      <Pagination count={totalPages} page={page} onChange={handleChange} />
     </Box>
   );
 }

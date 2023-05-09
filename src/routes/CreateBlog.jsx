@@ -1,5 +1,5 @@
 import { redirect } from 'react-router-dom';
-import BlogForm from '../components/generics/BlogForm';
+import { BlogForm } from '../includes/components';
 import { createBlog } from '../services';
 
 export async function action({ request }) {
