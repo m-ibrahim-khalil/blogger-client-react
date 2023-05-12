@@ -3,5 +3,10 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      '/api': 'https://fine-lime-bull-gear.cyclic.app/',
+    },
+  },
   plugins: [react()],
 });

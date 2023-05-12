@@ -2,7 +2,7 @@ import Axios from './api/axios';
 
 export async function register(userData) {
   try {
-    const response = await Axios.post(`auth/register`, userData);
+    const response = await Axios.post(`/api/v1/auth/register`, userData);
     return { status: 'REGISTER_SUCCESS', payload: response.data };
   } catch (err) {
     return {
@@ -14,7 +14,7 @@ export async function register(userData) {
 
 export async function login(userData) {
   try {
-    const response = await Axios.post(`auth/login`, userData);
+    const response = await Axios.post(`/api/v1/auth/login`, userData);
     return { status: 'LOGIN_SUCCESS', payload: response.data };
   } catch (err) {
     return {

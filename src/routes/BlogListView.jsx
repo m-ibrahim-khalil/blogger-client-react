@@ -3,20 +3,14 @@ import Divider from '@mui/material/Divider';
 import Pagination from '@mui/material/Pagination';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import {
-  Outlet,
-  useLoaderData,
-  useNavigate,
-  useSearchParams,
-} from 'react-router-dom';
+import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import { BlogListCard } from '../includes/components';
 
-function BlogListView() {
+export function ListView({ items }) {
   const [searchParams] = useSearchParams();
   const [page, setPage] = useState(parseInt(searchParams.get('page'), 10) || 1);
   const navigate = useNavigate();
-  const { blogs } = useLoaderData();
-  const { payload, totalPages } = blogs;
+  const { payload: blogs, totalPages } = items;
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -24,42 +18,39 @@ function BlogListView() {
   };
 
   return (
-    <Box component="nav" aria-label="blog list">
-      {payload.length ? (
+    <>
+      <Typography
+        variant="h6"
+        align="center"
+        style={{
+          fontFamily: 'Poppins',
+          fontWeight: 'bold',
+          color: '#863812',
+        }}
+      >
+        {blogs.length ? 'Blog List' : 'No Blog Found'}
+      </Typography>
+      {blogs.length && (
         <>
-          <Typography
-            variant="h6"
-            align="center"
-            style={{
-              fontFamily: 'Poppins',
-              fontWeight: 'bold',
-              color: '#863812',
-            }}
-          >
-            Blog List
-          </Typography>
           <Divider />
           <div>
-            {payload.map((blog) => (
+            {blogs.map((blog) => (
               <BlogListCard key={blog.id} blog={blog} />
             ))}
           </div>
           <Divider />
-          <Outlet />
           <Pagination count={totalPages} page={page} onChange={handleChange} />
         </>
-      ) : (
-        <Typography
-          variant="h6"
-          align="center"
-          style={{
-            fontFamily: 'Poppins',
-            color: '#863812',
-          }}
-        >
-          <i>No Blogs Found</i>
-        </Typography>
       )}
+    </>
+  );
+}
+
+function BlogListView() {
+  const { blogs } = useLoaderData();
+  return (
+    <Box component="nav" aria-label="blog list">
+      <ListView items={blogs} />
     </Box>
   );
 }

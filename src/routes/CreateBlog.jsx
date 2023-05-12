@@ -9,7 +9,6 @@ export async function action({ request }) {
   const errors = validateFormData(updates);
 
   if (Object.keys(errors).length) {
-    console.log(errors);
     return errors;
   }
 
@@ -19,6 +18,5 @@ export async function action({ request }) {
 }
 
 export default function CreateBlog() {
-  //   const blog = { title: '', description: '' };
   return <BlogForm option="Create" />;
 }

@@ -29,28 +29,3 @@ export default function AlertDialog({ title, description, open, handleClose }) {
     </div>
   );
 }
-
-export function Test() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (ok = false) => {
-    setOpen(false);
-    if (!ok) console.log('Hi');
-    else console.log('Hello');
-  };
-  return (
-    <>
-      <Button onClick={handleClickOpen}>Delete</Button>
-      <AlertDialog
-        title="test"
-        description="test"
-        open={open}
-        handleClose={handleClose}
-      />
-    </>
-  );
-}

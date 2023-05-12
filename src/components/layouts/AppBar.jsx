@@ -14,6 +14,50 @@ import { useAuth } from '../../context/authContext';
 import { removeCoockie } from '../../utils/jwt';
 import { ButtonOutlined } from '../common/Button';
 
+function AuthUserBtn({ authUser, navigate }) {
+  return (
+    <>
+      <ButtonOutlined
+        background="#073c3a"
+        opacity="0.8"
+        onClick={() => navigate(`/blogs/create`)}
+      >
+        Create Blog
+      </ButtonOutlined>
+      <Typography
+        color="inherit"
+        variant="h6"
+        onClick={() => navigate(`/users/${authUser}`)}
+      >
+        Hi {authUser}
+      </Typography>
+    </>
+  );
+}
+
+function AuthUserBtnStack({ handleProfile, handleLogout }) {
+  return (
+    <Stack>
+      <MenuItem onClick={handleProfile}>My account</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+    </Stack>
+  );
+}
+
+function GuestUserBtnStack({ handleClose }) {
+  return (
+    <Stack>
+      <MenuItem onClick={handleClose}>Guest User</MenuItem>
+      <MenuItem onClick={handleClose}>
+        <Link to="/Signin">Signin</Link>
+      </MenuItem>
+      <MenuItem onClick={handleClose}>
+        <Link to="/Signup">Signup</Link>
+      </MenuItem>
+    </Stack>
+  );
+}
+
 export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
@@ -52,24 +96,7 @@ export default function MenuAppBar() {
           Blogger App
         </Typography>
 
-        {authUser && (
-          <>
-            <ButtonOutlined
-              background="#073c3a"
-              opacity="0.8"
-              onClick={() => navigate(`/blogs/create`)}
-            >
-              Create Blog
-            </ButtonOutlined>
-            <Typography
-              color="inherit"
-              variant="h6"
-              onClick={() => navigate(`/users/${authUser}`)}
-            >
-              Hi {authUser}
-            </Typography>
-          </>
-        )}
+        {authUser && <AuthUserBtn authUser={authUser} navigate={navigate} />}
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -96,20 +123,12 @@ export default function MenuAppBar() {
           onClose={handleClose}
         >
           {authUser ? (
-            <Stack>
-              <MenuItem onClick={handleProfile}>My account</MenuItem>
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
-            </Stack>
+            <AuthUserBtnStack
+              handleProfile={handleProfile}
+              handleLogout={handleLogout}
+            />
           ) : (
-            <Stack>
-              <MenuItem onClick={handleClose}>Guest User</MenuItem>
-              <MenuItem onClick={handleClose}>
-                <Link to="/Signin">Signin</Link>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <Link to="/Signup">Signup</Link>
-              </MenuItem>
-            </Stack>
+            <GuestUserBtnStack handleClose={handleClose} />
           )}
         </Menu>
       </Toolbar>

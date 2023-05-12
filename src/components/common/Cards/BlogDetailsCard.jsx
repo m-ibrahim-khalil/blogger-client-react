@@ -38,6 +38,67 @@ export default function BlogDetailsCard({ blog }) {
     return null;
   };
 
+  const cardHeader = (
+    <CardHeader
+      avatar={
+        <Avatar sx={{ bgcolor: red[500] }} aria-label="blog">
+          B
+        </Avatar>
+      }
+      action={
+        <IconButton aria-label="settings">
+          <MoreVertIcon />
+        </IconButton>
+      }
+      title={
+        <Typography
+          variant="h6"
+          component="div"
+          style={{
+            fontFamily: 'Poppins',
+            fontWeight: 'bold',
+            color: '#863812',
+          }}
+        >
+          {title}
+        </Typography>
+      }
+      subheader={
+        <>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            <b>Last Modified:</b> {dateTimeFormatter(updatedAt)}
+          </Typography>
+          <Typography
+            onClick={() => navigate(`/users/${author}`)}
+            sx={{ mb: 1.5 }}
+            style={{
+              fontFamily: 'Poppins',
+              fontWeight: 'bold',
+              color: '#863812',
+            }}
+          >
+            Author: @{author}
+          </Typography>
+        </>
+      }
+    />
+  );
+
+  const editDeleteBtnGroup = (
+    <Box display="flex">
+      <Form action="edit">
+        <ButtonOutlined>Edit</ButtonOutlined>
+      </Form>
+      <ButtonOutlined onClick={handleClickOpen}>Delete</ButtonOutlined>
+      <AlertDialog
+        title="Do you want to delete this blog!"
+        description="Deleting your blog will remove the blog permanantly from our database. This cannot be undone."
+        open={open}
+        handleClose={handleClose}
+      />
+    </Box>
+  );
+
   return (
     <div style={{ padding: '3rem' }}>
       <div
@@ -74,49 +135,7 @@ export default function BlogDetailsCard({ blog }) {
       </div>
 
       <Card className="blogCard">
-        <CardHeader
-          avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="blog">
-              B
-            </Avatar>
-          }
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title={
-            <Typography
-              variant="h6"
-              component="div"
-              style={{
-                fontFamily: 'Poppins',
-                fontWeight: 'bold',
-                color: '#863812',
-              }}
-            >
-              {title}
-            </Typography>
-          }
-          subheader={
-            <>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                <b>Last Modified:</b> {dateTimeFormatter(updatedAt)}
-              </Typography>
-              <Typography
-                onClick={() => navigate(`/users/${author}`)}
-                sx={{ mb: 1.5 }}
-                style={{
-                  fontFamily: 'Poppins',
-                  fontWeight: 'bold',
-                  color: '#863812',
-                }}
-              >
-                Author: @{author}
-              </Typography>
-            </>
-          }
-        />
+        {cardHeader}
         <CardMedia
           component="img"
           height="512 px"
@@ -139,20 +158,7 @@ export default function BlogDetailsCard({ blog }) {
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
-          {currentUser === author ? (
-            <Box display="flex">
-              <Form action="edit">
-                <ButtonOutlined>Edit</ButtonOutlined>
-              </Form>
-              <ButtonOutlined onClick={handleClickOpen}>Delete</ButtonOutlined>
-              <AlertDialog
-                title="Do you want to delete this blog!"
-                description="Deleting your blog will remove the blog permanantly from our database. This cannot be undone."
-                open={open}
-                handleClose={handleClose}
-              />
-            </Box>
-          ) : null}
+          {currentUser === author ? editDeleteBtnGroup : null}
         </CardActions>
       </Card>
     </div>
