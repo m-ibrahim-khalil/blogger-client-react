@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': 'https://fine-lime-bull-gear.cyclic.app/',
-      '^/api': {
+      '.*\/api.*': {
         target: 'https://fine-lime-bull-gear.cyclic.app/',
         changeOrigin: true,
       },
