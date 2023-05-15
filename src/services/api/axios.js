@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const Axios = axios.create({
   // baseURL: API_BASE_URL,
-  timeout: 50000,
+  timeout: 5000,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
