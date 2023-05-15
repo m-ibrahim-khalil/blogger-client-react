@@ -10,6 +10,7 @@ export default defineConfig({
         target: 'https://fine-lime-bull-gear.cyclic.app/',
         changeOrigin: true,
       },
+      'https://musical-dolphin-612496.netlify.app/api': 'https://fine-lime-bull-gear.cyclic.app/',
     },
   },
   plugins: [react()],
