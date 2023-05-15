@@ -9,7 +9,6 @@ export default defineConfig({
         target: 'https://fine-lime-bull-gear.cyclic.app/',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },
