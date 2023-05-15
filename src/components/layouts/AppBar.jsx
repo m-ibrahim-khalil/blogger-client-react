@@ -15,6 +15,7 @@ import { removeCoockie } from '../../utils/jwt';
 import { ButtonOutlined } from '../common/Button';
 
 function AuthUserBtn({ authUser, navigate }) {
+  console.log('Appbar: AuthUserBtn');
   return (
     <>
       <ButtonOutlined
@@ -36,6 +37,7 @@ function AuthUserBtn({ authUser, navigate }) {
 }
 
 function AuthUserBtnStack({ handleProfile, handleLogout }) {
+  console.log('Appbar: AuthUserBtnStack');
   return (
     <Stack>
       <MenuItem onClick={handleProfile}>My account</MenuItem>
@@ -45,6 +47,7 @@ function AuthUserBtnStack({ handleProfile, handleLogout }) {
 }
 
 function GuestUserBtnStack({ handleClose }) {
+  console.log('Appbar: GuestUserBtnStack');
   return (
     <Stack>
       <MenuItem onClick={handleClose}>Guest User</MenuItem>
@@ -59,6 +62,7 @@ function GuestUserBtnStack({ handleClose }) {
 }
 
 export default function MenuAppBar() {
+  console.log('Appbar Component');
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
   const { authUser, isLoggedIn, setAuthUser, setIsLoggedIn } = useAuth();

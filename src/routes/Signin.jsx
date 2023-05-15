@@ -10,6 +10,7 @@ import { getAuthUsername } from '../utils/jwt';
 import validateFormData from '../utils/inputValidation';
 
 export async function action({ request }) {
+  console.log('Signin: Action');
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
   const errors = validateFormData(updates);
@@ -27,8 +28,10 @@ function Signin() {
   const status = data?.status || null;
 
   useEffect(() => {
+    console.log('SignIn: useEffect');
     if (isLoggedIn) return navigate(`/`);
     if (status === 'LOGIN_SUCCESS') {
+      console.log(status);
       setIsLoggedIn(true);
       setAuthUser(getAuthUsername());
       return navigate(`/`);

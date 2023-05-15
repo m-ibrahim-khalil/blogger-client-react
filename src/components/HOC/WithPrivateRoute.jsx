@@ -3,6 +3,7 @@ import { Navigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 
 function WithPrivateRoute({ children }) {
+  console.log('Private Route');
   const { authUser } = useAuth();
   const { username } = useParams();
 

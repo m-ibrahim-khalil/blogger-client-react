@@ -4,6 +4,7 @@ import { createBlog } from '../services';
 import validateFormData from '../utils/inputValidation';
 
 export async function action({ request }) {
+  console.log('Create blog action');
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
   const errors = validateFormData(updates);
@@ -18,5 +19,6 @@ export async function action({ request }) {
 }
 
 export default function CreateBlog() {
+  console.log('Create Blog Componenet');
   return <BlogForm option="Create" />;
 }

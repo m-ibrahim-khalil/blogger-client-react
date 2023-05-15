@@ -17,15 +17,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export async function loader({ request }) {
+  console.log('Root Componenet: Loader get all blogs');
   const url = new URL(request.url);
   const page = url.searchParams.get('page') || 1;
   const blogs = await getBlogs(page);
+  if (!blogs || typeof blogs !== typeof [] || blogs instanceof String)
+    throw new Error(blogs);
   return { blogs };
 }
 
 export default function Root() {
   const classes = useStyles();
-
+  console.log('Root Componenet');
   return (
     <div className={classes.root}>
       <MenuAppBar className={classes.appBar} />

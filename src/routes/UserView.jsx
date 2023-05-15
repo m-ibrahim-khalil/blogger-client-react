@@ -20,6 +20,7 @@ export default function User() {
     avatar: '/images/cat.jpg',
     ...user,
   };
+  console.log('user view');
 
   return (
     <>

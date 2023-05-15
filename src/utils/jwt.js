@@ -5,6 +5,7 @@ function getAuthUsername() {
   const cookie = Cookies.get('jwt');
   if (cookie) {
     const { username } = jwt_decode(cookie);
+    console.log('coockie: ', username);
     if (username) return username.toLowerCase();
     return null;
   }

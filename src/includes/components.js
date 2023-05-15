@@ -1,6 +1,5 @@
 import WithPrivateRoute from '../components/HOC/WithPrivateRoute';
-import ErrorPage from '../components/Pages/ErrorPage';
-import HomePage from '../components/Pages/HomePage';
+import { ErrorPage, HomePage, NotFoundPage } from '../components/Pages';
 import { ButtonOutlined, ButtonSubmit } from '../components/common/Button';
 import {
   BlogDetailsCard,
@@ -26,5 +25,6 @@ export {
   MenuAppBar,
   HomePage,
   ErrorPage,
+  NotFoundPage,
   BlogForm,
 };
