@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import './HomePage.css';
 
 function HomePage() {
+  console.log('Home Page');
   return (
     <div className="HomePage">
       <h3>Blogger App</h3>

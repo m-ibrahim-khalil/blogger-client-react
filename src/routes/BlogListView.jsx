@@ -7,6 +7,7 @@ import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import { BlogListCard } from '../includes/components';
 
 export function ListView({ items }) {
+  console.log('Listview Componenet');
   const [searchParams] = useSearchParams();
   const [page, setPage] = useState(parseInt(searchParams.get('page'), 10) || 1);
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ export function ListView({ items }) {
 }
 
 function BlogListView() {
+  console.log('BlogListView Componenet');
   const { blogs } = useLoaderData();
   return (
     <Box component="nav" aria-label="blog list">

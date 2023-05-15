@@ -3,6 +3,7 @@ import { useAuth } from '../../context/authContext';
 import { removeCoockie } from '../../utils/jwt';
 
 export default function ErrorPage() {
+  console.log('Error Page');
   const error = useRouteError();
   const { setAuthUser, setIsLoggedIn } = useAuth();
 

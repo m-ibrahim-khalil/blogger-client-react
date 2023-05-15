@@ -6,6 +6,7 @@ import { ButtonOutlined, SingleLineTextField } from '../includes/components';
 import { updateUserByUsername } from '../services';
 
 export async function action({ request, params }) {
+  console.log('Update Password Action');
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
   const errors = {};
@@ -30,6 +31,7 @@ export async function action({ request, params }) {
 export default function UpdatePassword() {
   const navigate = useNavigate();
   const errors = useActionData();
+  console.log('Update Password');
 
   return (
     <Container maxWidth="sm">

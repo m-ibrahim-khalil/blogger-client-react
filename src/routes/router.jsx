@@ -3,7 +3,12 @@ import {
   createRoutesFromElements,
   Route,
 } from 'react-router-dom';
-import { ErrorPage, HomePage, WithPrivateRoute } from '../includes/components';
+import {
+  ErrorPage,
+  HomePage,
+  WithPrivateRoute,
+  NotFoundPage,
+} from '../includes/components';
 import BlogListView from './BlogListView';
 import BlogsByAuthor, { loader as blogsByAuthorLoader } from './BlogsByAuthor';
 import BlogView, {
@@ -79,6 +84,7 @@ const Router = createBrowserRouter(
           action={updatePasswordAction}
         />
       </Route>
+      <Route path="*" element={<NotFoundPage />} />
     </Route>
   )
 );
