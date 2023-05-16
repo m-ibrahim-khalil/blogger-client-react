@@ -38,7 +38,7 @@ function Signup() {
     }
     setIsLoggedIn(false);
     setAuthUser(null);
-    return navigate('/signup');
+    // return navigate('/signup');
   }, [status, isLoggedIn]);
 
   return (

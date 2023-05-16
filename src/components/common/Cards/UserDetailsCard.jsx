@@ -1,20 +1,19 @@
 import { MoreVertOutlined } from '@mui/icons-material';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
-import { Avatar, Box, CardHeader, CardMedia, Grid } from '@mui/material';
+import { Avatar, CardHeader, CardMedia, Grid } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import { useState } from 'react';
-import { Form, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/authContext';
 import { deleteUserByUsername } from '../../../services/userService';
 import dateTimeFormatter from '../../../utils/dateTimeFormatter';
 import { removeCoockie } from '../../../utils/jwt';
-import { ButtonOutlined } from '../Button';
-import AlertDialog from '../Dialog/AlertDialog';
+import { ButtonOutlined, DeleteAlertButton } from '../Button';
 
 export default function UserDetailsCard({ user }) {
   const [open, setOpen] = useState(false);
@@ -99,21 +98,13 @@ export default function UserDetailsCard({ user }) {
           <ButtonOutlined onClick={handleShowBlogs}>
             {showBlog ? 'Show' : 'Hide'} Blogs
           </ButtonOutlined>
-          {currentUser === username ? (
-            <Box display="flex">
-              <Form action="update">
-                <ButtonOutlined>Update Password</ButtonOutlined>
-              </Form>
-
-              <ButtonOutlined onClick={handleClickOpen}>Delete</ButtonOutlined>
-              <AlertDialog
-                title="Do you want to delete this blog!"
-                description="Deleting your blog will remove the blog permanantly from our database. This cannot be undone."
-                open={open}
-                handleClose={handleClose}
-              />
-            </Box>
-          ) : null}
+          {currentUser === username && (
+            <DeleteAlertButton
+              open={open}
+              handleClickOpen={handleClickOpen}
+              handleClose={handleClose}
+            />
+          )}
         </CardActions>
       </CardContent>
     </Card>

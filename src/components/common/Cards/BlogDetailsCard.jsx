@@ -158,7 +158,7 @@ export default function BlogDetailsCard({ blog }) {
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
-          {currentUser === author ? editDeleteBtnGroup : null}
+          {currentUser === author && editDeleteBtnGroup}
         </CardActions>
       </Card>
     </div>
