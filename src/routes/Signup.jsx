@@ -1,13 +1,15 @@
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Box, Container, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Link, useActionData, useNavigate } from 'react-router-dom';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useAuth } from '../context/authContext';
-import { ButtonSubmit, SingleLineTextField } from '../includes/components';
+import { SingleLineTextField } from '../includes/components';
 import { register } from '../services/authService';
 import { getAuthUsername } from '../utils/jwt';
 import validateFormData from '../utils/inputValidation';
+import ButtonLoading from '../components/common/Button/Loading';
 
 export async function action({ request }) {
   console.log('Signup: action');
@@ -22,6 +24,7 @@ export async function action({ request }) {
 }
 
 function Signup() {
+  const [loading, setLoading] = useState(true);
   const data = useActionData();
   const navigate = useNavigate();
   const { setIsLoggedIn, setAuthUser, isLoggedIn } = useAuth();
@@ -32,10 +35,12 @@ function Signup() {
     if (isLoggedIn) return navigate(`/`);
     if (status === 'REGISTER_SUCCESS') {
       console.log(status);
+      setLoading(false);
       setIsLoggedIn(true);
       setAuthUser(getAuthUsername());
       return navigate(`/`);
     }
+    setLoading(false);
     setIsLoggedIn(false);
     setAuthUser(null);
     // return navigate('/signup');
@@ -69,7 +74,7 @@ function Signup() {
           </Typography>
         )}
 
-        <Form method="post" id="signup-form">
+        <Form method="post" id="signup-form" onSubmit={() => setLoading(true)}>
           <Box sx={{ mt: 3 }}>
             <SingleLineTextField
               id="username"
@@ -94,7 +99,10 @@ function Signup() {
             {data?.password && (
               <span style={{ color: 'red' }}>{data.password}</span>
             )}
-            <ButtonSubmit>Sign Up</ButtonSubmit>
+            {/* <ButtonSubmit>Sign Up</ButtonSubmit> */}
+            <ButtonLoading loading={loading} endIcon={<LockOpenIcon />}>
+              <span>Sign Up</span>
+            </ButtonLoading>
           </Box>
         </Form>
         <Link to="/signin">Already have an account? Sign in</Link>

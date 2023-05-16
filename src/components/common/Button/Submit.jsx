@@ -1,7 +1,5 @@
 import { Button } from '@mui/material';
-import React from 'react';
 
-// eslint-disable-next-line react/prop-types
 function ButtonSubmit({ children, ...rest }) {
   return (
     <Button

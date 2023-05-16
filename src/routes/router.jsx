@@ -3,6 +3,7 @@ import {
   createRoutesFromElements,
   Route,
 } from 'react-router-dom';
+import { Suspense } from 'react';
 import {
   ErrorPage,
   HomePage,
@@ -27,18 +28,62 @@ import User, {
   action as deleteUserAction,
   loader as userLoader,
 } from './UserView';
+import
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+    <Route
+      path="/"
+      element={
+        <Suspense fallback={<h1>Loading...</h1>}>
+          <Root />
+        </Suspense>
+      }
+      errorElement={<ErrorPage />}
+    >
       <Route errorElement={<ErrorPage />}>
-        <Route index element={<HomePage />} />
-        <Route path="signin" element={<Signin />} action={signinAction} />
-        <Route path="signup" element={<Signup />} action={signupAction} />
-        <Route path="blogs" element={<BlogListView />} loader={rootLoader} />
+        <Route
+          index
+          element={
+            <Suspense fallback={<h1>Loading...</h1>}>
+              <HomePage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="signin"
+          element={
+            <Suspense fallback={<h1>Loading...</h1>}>
+              <Signin />
+            </Suspense>
+          }
+          action={signinAction}
+        />
+        <Route
+          path="signup"
+          element={
+            <Suspense fallback={<h1>Loading...</h1>}>
+              <Signup />
+            </Suspense>
+          }
+          action={signupAction}
+        />
+        <Route
+          path="blogs"
+          element={
+            <Suspense fallback={<h1>Loading...</h1>}>
+              <BlogListView />
+            </Suspense>
+          }
+          loader={rootLoader}
+        />
         <Route
           path="blogs/:blogId"
-          element={<BlogView />}
+          element={
+            <Suspense fallback={<h1>Loading...</h1>}>
+              <BlogView />
+            </Suspense>
+          }
           loader={blogLoader}
           action={deleteBlogAction}
         />
@@ -46,7 +91,9 @@ const Router = createBrowserRouter(
           path="blogs/create"
           element={
             <WithPrivateRoute>
-              <CreateBlog />
+              <Suspense fallback={<h1>Loading...</h1>}>
+                <CreateBlog />
+              </Suspense>
             </WithPrivateRoute>
           }
           action={createBlogAction}
@@ -55,7 +102,9 @@ const Router = createBrowserRouter(
           path="blogs/:blogId/edit"
           element={
             <WithPrivateRoute>
-              <EditBlog />
+              <Suspense fallback={<h1>Loading...</h1>}>
+                <EditBlog />
+              </Suspense>
             </WithPrivateRoute>
           }
           loader={blogLoader}
@@ -64,13 +113,21 @@ const Router = createBrowserRouter(
 
         <Route
           path="users/:username/"
-          element={<User />}
+          element={
+            <Suspense fallback={<h1>Loading...</h1>}>
+              <User />
+            </Suspense>
+          }
           loader={userLoader}
           action={deleteUserAction}
         >
           <Route
             path="blogs/:authorId"
-            element={<BlogsByAuthor />}
+            element={
+              <Suspense fallback={<h1>Loading...</h1>}>
+                <BlogsByAuthor />
+              </Suspense>
+            }
             loader={blogsByAuthorLoader}
           />
         </Route>
@@ -78,7 +135,9 @@ const Router = createBrowserRouter(
           path="users/:username/update"
           element={
             <WithPrivateRoute>
-              <UpdatePassword />
+              <Suspense fallback={<h1>Loading...</h1>}>
+                <UpdatePassword />
+              </Suspense>
             </WithPrivateRoute>
           }
           action={updatePasswordAction}
