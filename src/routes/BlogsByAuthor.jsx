@@ -1,7 +1,8 @@
 import { Box } from '@mui/material';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { getBlogsByAuthor } from '../services';
 import { ListView } from './BlogListView';
+import { Spinner } from '../components/Pages';
 
 export async function loader({ params, request }) {
   console.log('BlogAuthor Loader');
@@ -14,6 +15,7 @@ export async function loader({ params, request }) {
 export default function BlogsByAuthor() {
   console.log('BlogAuthor Componenet');
   const { blogs } = useLoaderData();
+  const { state } = useNavigate();
 
   return (
     <Box
@@ -22,6 +24,7 @@ export default function BlogsByAuthor() {
         alignItems: 'center',
       }}
     >
+      {state === 'loading' && <Spinner />}
       <ListView items={blogs} />
     </Box>
   );

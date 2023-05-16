@@ -4,7 +4,7 @@ import Pagination from '@mui/material/Pagination';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
-import { BlogListCard } from '../includes/components';
+import { BlogListCard, Spinner } from '../includes/components';
 
 export function ListView({ items }) {
   console.log('Listview Componenet');
@@ -50,8 +50,10 @@ export function ListView({ items }) {
 function BlogListView() {
   console.log('BlogListView Componenet');
   const { blogs } = useLoaderData();
+  const { state } = useNavigate();
   return (
     <Box component="nav" aria-label="blog list">
+      {state === 'loading' && <Spinner />}
       <ListView items={blogs} />
     </Box>
   );

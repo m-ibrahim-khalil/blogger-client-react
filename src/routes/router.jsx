@@ -9,6 +9,7 @@ import {
   HomePage,
   WithPrivateRoute,
   NotFoundPage,
+  Spinner,
 } from '../includes/components';
 import BlogListView from './BlogListView';
 import BlogsByAuthor, { loader as blogsByAuthorLoader } from './BlogsByAuthor';
@@ -28,14 +29,13 @@ import User, {
   action as deleteUserAction,
   loader as userLoader,
 } from './UserView';
-import
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
     <Route
       path="/"
       element={
-        <Suspense fallback={<h1>Loading...</h1>}>
+        <Suspense fallback={<Spinner />}>
           <Root />
         </Suspense>
       }
@@ -45,7 +45,7 @@ const Router = createBrowserRouter(
         <Route
           index
           element={
-            <Suspense fallback={<h1>Loading...</h1>}>
+            <Suspense fallback={<Spinner />}>
               <HomePage />
             </Suspense>
           }
@@ -53,7 +53,7 @@ const Router = createBrowserRouter(
         <Route
           path="signin"
           element={
-            <Suspense fallback={<h1>Loading...</h1>}>
+            <Suspense fallback={<Spinner />}>
               <Signin />
             </Suspense>
           }
@@ -62,7 +62,7 @@ const Router = createBrowserRouter(
         <Route
           path="signup"
           element={
-            <Suspense fallback={<h1>Loading...</h1>}>
+            <Suspense fallback={<Spinner />}>
               <Signup />
             </Suspense>
           }
@@ -71,7 +71,7 @@ const Router = createBrowserRouter(
         <Route
           path="blogs"
           element={
-            <Suspense fallback={<h1>Loading...</h1>}>
+            <Suspense fallback={<Spinner />}>
               <BlogListView />
             </Suspense>
           }
@@ -80,7 +80,7 @@ const Router = createBrowserRouter(
         <Route
           path="blogs/:blogId"
           element={
-            <Suspense fallback={<h1>Loading...</h1>}>
+            <Suspense fallback={<Spinner />}>
               <BlogView />
             </Suspense>
           }
@@ -91,7 +91,7 @@ const Router = createBrowserRouter(
           path="blogs/create"
           element={
             <WithPrivateRoute>
-              <Suspense fallback={<h1>Loading...</h1>}>
+              <Suspense fallback={<Spinner />}>
                 <CreateBlog />
               </Suspense>
             </WithPrivateRoute>
@@ -102,7 +102,7 @@ const Router = createBrowserRouter(
           path="blogs/:blogId/edit"
           element={
             <WithPrivateRoute>
-              <Suspense fallback={<h1>Loading...</h1>}>
+              <Suspense fallback={<Spinner />}>
                 <EditBlog />
               </Suspense>
             </WithPrivateRoute>
@@ -114,7 +114,7 @@ const Router = createBrowserRouter(
         <Route
           path="users/:username/"
           element={
-            <Suspense fallback={<h1>Loading...</h1>}>
+            <Suspense fallback={<Spinner />}>
               <User />
             </Suspense>
           }
@@ -124,7 +124,7 @@ const Router = createBrowserRouter(
           <Route
             path="blogs/:authorId"
             element={
-              <Suspense fallback={<h1>Loading...</h1>}>
+              <Suspense fallback={<Spinner />}>
                 <BlogsByAuthor />
               </Suspense>
             }
@@ -135,7 +135,7 @@ const Router = createBrowserRouter(
           path="users/:username/update"
           element={
             <WithPrivateRoute>
-              <Suspense fallback={<h1>Loading...</h1>}>
+              <Suspense fallback={<Spinner />}>
                 <UpdatePassword />
               </Suspense>
             </WithPrivateRoute>
