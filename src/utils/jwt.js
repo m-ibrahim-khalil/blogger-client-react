@@ -1,6 +1,11 @@
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 
+function hasCookie(cookieName = 'jwt') {
+  const cookie = Cookies.get(cookieName);
+  return !!cookie;
+}
+
 function getAuthUsername() {
   const cookie = Cookies.get('jwt');
   if (cookie) {
@@ -16,4 +21,4 @@ function removeCoockie(cookieName = 'jwt') {
   Cookies.remove(cookieName);
 }
 
-export { getAuthUsername, removeCoockie };
+export { hasCookie, getAuthUsername, removeCoockie };

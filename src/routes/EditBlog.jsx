@@ -2,7 +2,7 @@ import { redirect, useLoaderData } from 'react-router-dom';
 import { BlogForm } from '../includes/components';
 import { updateBlog } from '../services';
 import { getAuthUsername } from '../utils/jwt';
-import validateFormData from '../utils/inputValidation';
+import validateFormData from '../utils/formDataValidation';
 
 export async function action({ request, params }) {
   console.log('Edit Componenet: action');

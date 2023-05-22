@@ -1,5 +1,8 @@
 export default function validateFormData(formData) {
   const errors = {};
+  if (formData?.fullname && !formData?.fullname?.trim()) {
+    errors.fullname = "Full Name can't be empty or space";
+  }
   if (formData?.username && !formData?.username?.trim()) {
     errors.username = "Username can't be empty or space";
   }

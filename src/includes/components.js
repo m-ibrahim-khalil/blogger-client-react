@@ -11,12 +11,12 @@ import {
   BlogListCard,
   UserDetailsCard,
 } from '../components/common/Cards';
-import BlogForm from '../components/common/Form';
+import { BlogForm } from '../components/common/Form';
 import {
   MultiLineTextField,
   SingleLineTextField,
 } from '../components/common/TextField';
-import MenuAppBar from '../components/layouts/AppBar';
+import { MenuAppBar, BlogsLayout, UsersLayout } from '../components/layouts';
 
 export {
   ButtonOutlined,
@@ -33,4 +33,6 @@ export {
   NotFoundPage,
   BlogForm,
   Spinner,
+  BlogsLayout,
+  UsersLayout,
 };

@@ -1,3 +1,5 @@
 import BlogForm from './BlogForm';
+import TextInputField from './TextInputField';
+import PasswordInputField from './PasswordInputField';
 
-export default BlogForm;
+export { BlogForm, TextInputField, PasswordInputField };

@@ -34,8 +34,11 @@ function Signup() {
     console.log('Signup: useEffect');
     if (isLoggedIn) return navigate(`/`);
     if (status === 'REGISTER_SUCCESS') {
+<<<<<<< Updated upstream
       console.log(status);
+=======
       setLoading(false);
+>>>>>>> Stashed changes
       setIsLoggedIn(true);
       setAuthUser(getAuthUsername());
       return navigate(`/`);
