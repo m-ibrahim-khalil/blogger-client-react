@@ -7,7 +7,7 @@ export default function ErrorPage() {
   const error = useRouteError();
   const { setAuthUser, setIsLoggedIn } = useAuth();
 
-  if (error.message.includes('jwt expired')) {
+  if (error?.message?.includes('jwt expired')) {
     setAuthUser(null);
     setIsLoggedIn(false);
     removeCoockie('jwt');

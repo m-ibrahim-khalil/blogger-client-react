@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@mui/material';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { MenuAppBar, Spinner } from '../includes/components';
+import { Outlet } from 'react-router-dom';
+import { MenuAppBar } from '../includes/components';
 import { getBlogs } from '../services';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,13 +28,11 @@ export async function loader({ request }) {
 
 export default function Root() {
   const classes = useStyles();
-  const { state } = useNavigate();
   console.log('Root Componenet');
   return (
     <div className={classes.root}>
       <MenuAppBar className={classes.appBar} />
       <Box className={classes.content} component="main">
-        {state === 'loading' && <Spinner />}
         <Outlet />
       </Box>
     </div>

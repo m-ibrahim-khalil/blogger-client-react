@@ -17,7 +17,7 @@ function BlogListCard({ blog, length = 100 }) {
             color: '#863812',
           }}
         >
-          {blog.title}
+          {blog?.title}
         </Typography>
         <Typography
           className="blogAuthor"
@@ -30,16 +30,16 @@ function BlogListCard({ blog, length = 100 }) {
           }}
           color="#863812"
         >
-          &nbsp;@{blog.author}
+          &nbsp;@{blog?.author}
         </Typography>
         <br />
-        {dateTimeFormatter(blog.updatedAt)}
+        {dateTimeFormatter(blog?.updatedAt)}
         <Divider />
         <div style={{ textAlign: 'justify' }}>
           <span style={{ whiteSpace: 'pre-line' }}>
-            {blog.description.length > length
-              ? `${blog.description.slice(0, length)} ......`
-              : blog.description}
+            {blog?.description.length > length
+              ? `${blog?.description.slice(0, length)} ......`
+              : blog?.description}
           </span>
         </div>
       </CardContent>

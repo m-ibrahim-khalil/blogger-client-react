@@ -7,7 +7,6 @@ import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import { BlogListCard, Spinner } from '../includes/components';
 
 export function ListView({ items }) {
-  console.log('Listview Componenet');
   const [searchParams] = useSearchParams();
   const [page, setPage] = useState(parseInt(searchParams.get('page'), 10) || 1);
   const navigate = useNavigate();
@@ -53,7 +52,7 @@ function BlogListView() {
   const { state } = useNavigate();
   return (
     <Box component="nav" aria-label="blog list">
-      {state === 'loading' && <Spinner />}
+      {state === 'loading' && <Spinner data-testid="spinner" />}
       <ListView items={blogs} />
     </Box>
   );

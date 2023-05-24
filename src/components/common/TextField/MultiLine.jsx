@@ -5,6 +5,7 @@ function MultiLineTextField({ name, ...rest }) {
     <TextareaAutosize
       id={name}
       name={name}
+      label={name}
       aria-label={name}
       placeholder={name}
       {...rest}

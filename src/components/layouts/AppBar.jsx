@@ -96,6 +96,7 @@ export default function MenuAppBar() {
           variant="h5"
           sx={{ flexGrow: 1 }}
           onClick={() => navigate('')}
+          name="logo"
         >
           Blogger App
         </Typography>
