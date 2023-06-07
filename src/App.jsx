@@ -1,16 +1,17 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { HomePage, NotFoundPage } from './includes/components';
-import BlogRoutes from './routes/BlogRoutes';
-import UserRoutes from './routes/UserRoutes';
-import SignIn from './components/Pages/Signin';
-import SignUp from './components/Pages/Signup';
-import Navbar from './components/layouts/NavBar';
+import {
+  HomePage,
+  NavBar,
+  NotFoundPage,
+  SignIn,
+  SignUp,
+} from './includes/components';
+import { BlogRoutes, UserRoutes } from './routes';
 
 function App() {
   return (
     <Router>
-      {/* <MenuAppBar /> */}
-      <Navbar />
+      <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignUp />} />

@@ -11,10 +11,10 @@ import LoginIcon from '@mui/icons-material/Login';
 import { useState } from 'react';
 import { signIn } from '../../features/authSlice';
 import { login } from '../../services';
-import ButtonLoading from '../common/Button/Loading';
+import { ButtonLoading } from '../common/Button';
 import { PasswordInputField, TextInputField } from '../common/Form';
 import validateFormData from '../../utils/formDataValidation';
-import { hasCookie } from '../../utils/jwt';
+import { getAuthUsername } from '../../utils/jwt';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignIn() {
   const [validationErrors, setValidationErrors] = useState({});
   const classes = useStyles();
   const navigate = useNavigate();
@@ -49,10 +49,12 @@ export default function SignUp() {
   const queryClient = useQueryClient();
   const loginUserMutation = useMutation({
     mutationFn: login,
-    onSuccess: (data) => {
-      console.log('success mutation');
+    onSuccess: (data, variables) => {
+      console.log('success mutation', variables);
       queryClient.setQueryData(['login', data.username], data);
       queryClient.invalidateQueries(['login'], { exact: true });
+      dispatch(signIn({ authUser: getAuthUsername() }));
+      navigate('/');
     },
   });
 
@@ -69,10 +71,6 @@ export default function SignUp() {
       return;
     }
     loginUserMutation.mutate(formData);
-    if (loginUserMutation.isSuccess && hasCookie()) {
-      dispatch(signIn({ authUser: formData.username }));
-      navigate('/');
-    }
   };
 
   return (

@@ -19,6 +19,7 @@ module.exports = {
   },
   plugins: ['react', 'prettier'],
   rules: {
+    'no-console': 0,
     'react/react-in-jsx-scope': 0,
     'default-param-last': 0,
     'react/prop-types': 0,

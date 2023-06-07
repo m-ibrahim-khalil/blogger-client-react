@@ -12,8 +12,9 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import { useState } from 'react';
-import { Form, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../context/authContext';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useQueryClient } from '@tanstack/react-query';
 import { deleteBlog } from '../../../services/blogService';
 import dateTimeFormatter from '../../../utils/dateTimeFormatter';
 import { ButtonOutlined } from '../Button';
@@ -21,9 +22,10 @@ import AlertDialog from '../Dialog/AlertDialog';
 
 export default function BlogDetailsCard({ blog }) {
   const [open, setOpen] = useState(false);
-  const { authUser: currentUser } = useAuth();
+  const { authUser: currentUser } = useSelector((state) => state.auth.value);
   const { title, description, author, updatedAt, avatar } = blog;
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,6 +35,8 @@ export default function BlogDetailsCard({ blog }) {
     setOpen(false);
     if (ok) {
       await deleteBlog(blog.id);
+      queryClient.invalidateQueries(['all-blogs']);
+      queryClient.invalidateQueries(['single-blog', blog.id]);
       return navigate('/blogs');
     }
     return null;
@@ -86,9 +90,9 @@ export default function BlogDetailsCard({ blog }) {
 
   const editDeleteBtnGroup = (
     <Box display="flex">
-      <Form action="edit">
-        <ButtonOutlined>Edit</ButtonOutlined>
-      </Form>
+      <ButtonOutlined onClick={() => navigate(`/blogs/${blog.id}/edit`)}>
+        Edit
+      </ButtonOutlined>
       <ButtonOutlined onClick={handleClickOpen}>Delete</ButtonOutlined>
       <AlertDialog
         title="Do you want to delete this blog!"

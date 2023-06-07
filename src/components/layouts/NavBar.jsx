@@ -14,7 +14,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import NavMenu from '../common/Menu/NavMenu';
-import Logo from '../common/Logo';
+import Logo from './Logo';
 import { WriteButton } from '../common/Button';
 
 function NavBar() {

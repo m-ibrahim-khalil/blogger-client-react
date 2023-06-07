@@ -1,13 +1,18 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { ButtonOutlined } from '../common/Button';
+import { Box } from '@mui/material';
 
 function UsersLayout() {
   return (
-    <div>
-      <ButtonOutlined>Go back</ButtonOutlined>
+    <Box
+      sx={{
+        padding: '3rem',
+        margin: '2rem',
+        background: '#f1f1f1',
+      }}
+    >
       <Outlet />
-    </div>
+    </Box>
   );
 }
 

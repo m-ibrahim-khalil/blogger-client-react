@@ -1,5 +1,5 @@
-import MenuAppBar from './AppBar';
 import BlogsLayout from './BlogsLayout';
 import UsersLayout from './UsersLayout';
+import NavBar from './NavBar';
 
-export { MenuAppBar, BlogsLayout, UsersLayout };
+export { BlogsLayout, UsersLayout, NavBar };

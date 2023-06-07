@@ -19,5 +19,12 @@ export default function validateFormData(formData) {
   if (formData?.description && !formData?.description?.trim()) {
     errors.description = "Description can't be empty or space";
   }
+
+  if (formData?.oldPassword?.length < 6) {
+    errors.oldPassword = 'Old Password must be > 6 characters';
+  }
+  if (formData?.newPassword?.length < 6) {
+    errors.newPassword = 'New Password must be > 6 characters';
+  }
   return errors;
 }

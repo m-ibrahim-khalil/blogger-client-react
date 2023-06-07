@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { Form } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ButtonOutlined from './Outlined';
 import AlertDialog from '../Dialog/AlertDialog';
 
@@ -8,12 +8,12 @@ export default function DeleteAlertButton({
   handleClickOpen,
   handleClose,
 }) {
+  const navigate = useNavigate();
   return (
     <Box display="flex">
-      <Form action="update">
-        <ButtonOutlined>Update Password</ButtonOutlined>
-      </Form>
-
+      <ButtonOutlined onClick={() => navigate(`updatePassword`)}>
+        Update Password
+      </ButtonOutlined>
       <ButtonOutlined onClick={handleClickOpen}>Delete</ButtonOutlined>
       <AlertDialog
         title="Do you want to delete this blog!"

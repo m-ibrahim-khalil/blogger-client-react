@@ -8,12 +8,13 @@ export const authSlice = createSlice({
   initialState: { value: initialStateValue },
   reducers: {
     signIn: (state, action) => {
-      console.log('reducer -> signin');
+      console.log('reducer -> signin', action.payload);
       state.value = action.payload;
+      console.log(state);
     },
 
     signUp: (state, action) => {
-      console.log('reducer -> signup');
+      console.log('reducer -> signup', action);
       state.value = action.payload;
     },
 

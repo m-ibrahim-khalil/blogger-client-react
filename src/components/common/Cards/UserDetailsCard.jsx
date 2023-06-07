@@ -9,18 +9,22 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../context/authContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { useQueryClient } from '@tanstack/react-query';
 import { deleteUserByUsername } from '../../../services/userService';
 import dateTimeFormatter from '../../../utils/dateTimeFormatter';
-import { removeCoockie } from '../../../utils/jwt';
 import { ButtonOutlined, DeleteAlertButton } from '../Button';
+import { logout } from '../../../features/authSlice';
 
 export default function UserDetailsCard({ user }) {
+  console.log('User Details Component');
   const [open, setOpen] = useState(false);
   const [showBlog, setShowBlog] = useState(true);
   const { id, avatar, username, email, createdAt } = user;
   const navigate = useNavigate();
-  const { authUser: currentUser, setAuthUser, setIsLoggedIn } = useAuth();
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+  const { authUser: currentUser } = useSelector((state) => state.auth.value);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -30,9 +34,8 @@ export default function UserDetailsCard({ user }) {
     setOpen(false);
     if (ok) {
       await deleteUserByUsername(username);
-      removeCoockie();
-      setAuthUser(null);
-      setIsLoggedIn(false);
+      queryClient.invalidateQueries(['all-blogs']);
+      dispatch(logout());
       return navigate(`/blogs`);
     }
     return null;

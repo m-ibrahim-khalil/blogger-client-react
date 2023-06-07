@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LoginIcon from '@mui/icons-material/Login';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -13,7 +13,7 @@ import { register } from '../../services';
 import validateFormData from '../../utils/formDataValidation';
 import { signUp } from '../../features/authSlice';
 import { PasswordInputField, TextInputField } from '../common/Form';
-import { hasCookie } from '../../utils/jwt';
+import { ButtonLoading } from '../common/Button';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -50,8 +50,10 @@ export default function SignUp() {
     mutationFn: register,
     onSuccess: (data) => {
       console.log('success mutation');
-      queryClient.setQueryData(['register', data.username], data);
+      dispatch(signUp({ authUser: data?.message?.username }));
+      queryClient.setQueryData(['register', data?.message?.username], data);
       queryClient.invalidateQueries(['register'], { exact: true });
+      navigate('/');
     },
   });
 
@@ -70,9 +72,6 @@ export default function SignUp() {
       return;
     }
     registerUserMutation.mutate(formData);
-    if (registerUserMutation.isSuccess && hasCookie())
-      dispatch(signUp({ authUser: formData.username }));
-    navigate('/');
   };
 
   return (
@@ -84,6 +83,17 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
+        {registerUserMutation.isError && (
+          <Typography
+            component="h1"
+            variant="h5"
+            style={{
+              color: 'red',
+            }}
+          >
+            {registerUserMutation?.error?.response?.data?.message}
+          </Typography>
+        )}
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -104,24 +114,23 @@ export default function SignUp() {
             <Grid item xs={12}>
               <PasswordInputField error={validationErrors?.password} />
             </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign Up
-          </Button>
-          <Grid container justifyContent="center">
-            <Grid item>
-              <Link to="/signin" variant="body2">
-                Already have an account? Sign in
-              </Link>
+            <Grid item xs={12}>
+              <ButtonLoading
+                loading={registerUserMutation.isLoading}
+                endIcon={<LoginIcon />}
+              >
+                <span>Sign Up</span>
+              </ButtonLoading>
             </Grid>
           </Grid>
         </form>
+        <Grid container justifyContent="center">
+          <Grid item>
+            <Link to="/signin" variant="body2">
+              Already have an account? Sign in
+            </Link>
+          </Grid>
+        </Grid>
       </div>
     </Container>
   );

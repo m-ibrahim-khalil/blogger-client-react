@@ -7,6 +7,7 @@ function TextInputField({ label, error, ...rest }) {
     <TextField
       variant="outlined"
       required
+      type="text"
       fullWidth
       id={mark}
       label={label}

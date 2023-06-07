@@ -1,23 +1,23 @@
-import { useRouteError } from 'react-router-dom';
-import { useAuth } from '../../context/authContext';
-import { removeCoockie } from '../../utils/jwt';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../features/authSlice';
 
-export default function ErrorPage() {
+export default function ErrorPage({ error }) {
   console.log('Error Page');
-  const error = useRouteError();
-  const { setAuthUser, setIsLoggedIn } = useAuth();
-
-  if (error.message.includes('jwt expired')) {
-    setAuthUser(null);
-    setIsLoggedIn(false);
-    removeCoockie('jwt');
+  const dispatch = useDispatch();
+  if (error?.message.includes('jwt expired')) {
+    dispatch(logout());
   }
   return (
     <div id="error-page">
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
       <p>
-        <i>{error.statusText || error.message}</i>
+        <i>
+          {error?.statusText ||
+            error?.message ||
+            error?.name ||
+            error?.response}
+        </i>
       </p>
     </div>
   );

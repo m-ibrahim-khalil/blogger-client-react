@@ -1,12 +1,29 @@
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { Avatar, Box, Container, Typography } from '@mui/material';
-import { Form, useActionData, useNavigate } from 'react-router-dom';
-import { ButtonOutlined } from '../Button';
-import { MultiLineTextField } from '../TextField';
+import { Avatar, Box, Button, Container, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import SaveIcon from '@mui/icons-material/Save';
+import validateFormData from '../../../utils/formDataValidation';
+import TextInputField from './TextInputField';
+import ButtonLoading from '../Button/Loading';
 
-export default function BlogForm({ blog, option }) {
-  const errors = useActionData();
+export default function BlogForm({ blog, option, mutation }) {
+  const [validationErrors, setValidationErrors] = useState({});
   const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = {
+      title: e.target.title.value,
+      description: e.target.description.value,
+    };
+    const errors = validateFormData(formData);
+    if (Object.keys(errors).length) {
+      setValidationErrors(errors);
+      return;
+    }
+    mutation.mutate(formData);
+  };
+  console.log(blog);
   return (
     <Container maxWidth="sm">
       <Box
@@ -23,39 +40,60 @@ export default function BlogForm({ blog, option }) {
         <Typography component="h1" variant="h5">
           {option} Blog
         </Typography>
-        <Form method="post" id="edit-blog-form">
-          <Box sx={{ mt: 1 }}>
-            <span>Title</span>
-            <MultiLineTextField
-              minRows={2}
-              name="title"
-              defaultValue={blog?.title}
-            />
-            {errors?.title && (
-              <span style={{ color: 'red' }}>{errors?.title}</span>
-            )}
-            <br />
-            <span>Description</span>
-            <MultiLineTextField
-              minRows={6}
-              name="description"
-              defaultValue={blog?.description}
-            />
-            {errors?.description && (
-              <span style={{ color: 'red' }}>{errors?.description}</span>
-            )}
-            <br />
-            <ButtonOutlined>Save</ButtonOutlined>
-            <ButtonOutlined
-              onClick={(event) => {
-                event.preventDefault();
-                navigate(-1);
-              }}
-            >
-              Cancel
-            </ButtonOutlined>
-          </Box>
-        </Form>
+        {mutation.isError && (
+          <Typography
+            component="h1"
+            variant="h5"
+            style={{
+              color: 'red',
+            }}
+          >
+            {mutation.error.response.data.message}
+          </Typography>
+        )}
+        <Box sx={{ mt: 1 }} component="form" onSubmit={handleSubmit}>
+          <TextInputField
+            label="Title"
+            defaultValue={blog?.title}
+            inputProps={{ style: { fontSize: 36 } }}
+            sx={{ marginBottom: '1.4rem' }}
+            error={validationErrors?.title}
+          />
+
+          <TextInputField
+            multiline
+            minRows={6}
+            label="Description"
+            defaultValue={blog?.description}
+            inputProps={{ style: { fontSize: 18 } }}
+            error={validationErrors?.description}
+          />
+
+          <ButtonLoading
+            fullWidth={false}
+            loading={mutation.isLoading}
+            endIcon={<SaveIcon />}
+            style={{ marginTop: '1.4rem', marginLeft: '8rem' }}
+          >
+            <span>Save</span>
+          </ButtonLoading>
+
+          <Button
+            vavariant="outlined"
+            style={{
+              backgroundColor: '#e7e7e7',
+              color: 'black',
+              marginTop: '1.4rem',
+              marginLeft: '1.8rem',
+            }}
+            onClick={(event) => {
+              event.preventDefault();
+              navigate(-1);
+            }}
+          >
+            Cancel
+          </Button>
+        </Box>
       </Box>
     </Container>
   );
